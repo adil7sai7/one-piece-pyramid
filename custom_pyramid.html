@@ -602,14 +602,20 @@
       font-weight: 900;
       color: #fff;
       text-align: center;
-      padding: 4px;
+      padding: 4px 4px 14px 4px;
       position: relative;
     }
-    .char-card-canvas .canvas-initial {
-      font-size: 1.5rem;
-      line-height: 1;
-      margin-bottom: 2px;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    .char-card-canvas .canvas-name {
+      font-size: clamp(0.72rem, 2.6vw, 0.92rem);
+      font-weight: 900;
+      line-height: 1.15;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+      letter-spacing: -0.2px;
     }
 
     .char-card-label {
@@ -851,7 +857,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .btn span {
+      header .btn span {
         display: none;
       }
       .control-group label {
@@ -917,10 +923,6 @@
       <div class="brand-text">
         <span class="brand-title" id="ui-brand-title">صانع الهرم المخصص</span>
         <span class="brand-subtitle" id="ui-brand-subtitle">ارفع صورك وصمم هرم التقييم الخاص بك</span>
-      </div>
-      <div class="header-links">
-        <a href="index.html" class="btn" title="الانتقال إلى هرم ون بيس">🏴‍☠️ <span>ون بيس</span></a>
-        <a href="https://adil7sai7.github.io/conan-pyramid/" target="_blank" rel="noopener noreferrer" class="btn" title="الانتقال إلى هرم كونان">🔍 <span>كونان</span></a>
       </div>
     </div>
 
@@ -1030,23 +1032,33 @@
     <div class="modal-box">
       <div class="modal-header">
         <div class="modal-title">
-          <span>🔍</span> <span id="ui-search-modal-title">بحث عن صورة على الإنترنت</span>
+          <span>🔍</span> <span id="ui-search-modal-title">بحث عن صورة في Google والإنترنت</span>
         </div>
         <button class="modal-close-btn" id="btn-close-search-modal">&times;</button>
       </div>
       <div class="modal-body">
         <div style="display: flex; gap: 0.4rem;">
-          <input type="text" id="web-query-input" placeholder="اسم العنصر أو الشخصية..." style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(245,158,11,0.3); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.82rem;">
+          <input type="text" id="web-query-input" placeholder="اسم العنصر أو الشيء المراد البحث عنه..." style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(245,158,11,0.3); color: #fff; padding: 0.45rem 0.65rem; border-radius: 6px; font-family: inherit; font-size: 0.85rem;">
           <button class="btn btn-gold" id="btn-exec-search">بحث</button>
         </div>
 
-        <div style="font-size: 0.72rem; color: var(--text-muted);">أو الصق رابط صورة مباشر:</div>
+        <!-- Google Images Direct Button -->
+        <button class="btn" id="btn-open-google-images" style="width: 100%; justify-content: center; padding: 0.6rem; font-size: 0.88rem; font-weight: 800; background: linear-gradient(135deg, #1d4ed8, #2563eb); border-color: #60a5fa; color: #fff; box-shadow: 0 4px 14px rgba(37,99,235,0.35);">
+          🌐 <span id="ui-google-btn-text">افتح بحث صور Google مباشرة (بنقرة واحدة)</span>
+        </button>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">
+          <span>الصق رابط الصورة، أو اضغط زر اللصق:</span>
+          <button class="btn" id="btn-paste-clipboard" style="padding: 0.2rem 0.55rem; font-size: 0.72rem; border-color: rgba(245,158,11,0.35); color: var(--gold-light);">
+            📋 لصق من الحافظة
+          </button>
+        </div>
         <div style="display: flex; gap: 0.4rem;">
-          <input type="url" id="direct-url-input" placeholder="https://example.com/image.jpg" style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 0.35rem 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.78rem;">
-          <button class="btn" id="btn-apply-direct-url">تطبيق</button>
+          <input type="url" id="direct-url-input" placeholder="https://example.com/image.jpg" style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.78rem;">
+          <button class="btn btn-gold" id="btn-apply-direct-url">تطبيق</button>
         </div>
 
-        <div style="font-size: 0.75rem; font-weight: 700; color: var(--gold-light); margin-top: 0.2rem;">نتائج مقترحة:</div>
+        <div style="font-size: 0.75rem; font-weight: 700; color: var(--gold-light); margin-top: 0.2rem;">اقتراحات صور سريعة:</div>
         <div class="search-results-grid" id="search-results-container">
           <div style="grid-column: span 3; text-align: center; color: var(--text-muted); font-size: 0.75rem; padding: 1rem;">
             اكتب اسمًا واضغط بحث
@@ -1094,7 +1106,9 @@
         namesModalTitle: 'إضافة عناصر بالأسماء',
         namesTip: 'اكتب الأسماء التي تريد تقييمها (كل اسم في سطر، أو مفصولة بفواصل):',
         generateBtn: 'توليد الكروت',
-        searchModalTitle: 'بحث عن صورة على الإنترنت',
+        searchModalTitle: 'بحث عن صورة في Google والإنترنت',
+        googleBtnText: 'افتح بحث صور Google مباشرة (بنقرة واحدة)',
+        pasteClipboard: '📋 لصق من الحافظة',
         toastPlaced: 'تم إيداع العنصر',
         toastRemoved: 'تمت إزالة العنصر',
         toastCleared: 'تم تفريغ الهرم',
@@ -1116,7 +1130,9 @@
         namesModalTitle: 'Add Items by Names',
         namesTip: 'Type names to rank (one per line, or comma-separated):',
         generateBtn: 'Generate Cards',
-        searchModalTitle: 'Search Web Image',
+        searchModalTitle: 'Search Image in Google & Web',
+        googleBtnText: 'Open Google Images Search (1-Click)',
+        pasteClipboard: '📋 Paste from Clipboard',
         toastPlaced: 'Placed item',
         toastRemoved: 'Removed item',
         toastCleared: 'Cleared pyramid',
@@ -1225,6 +1241,7 @@
               if (item.image) {
                 slotDiv.innerHTML = `
                   <img src="${item.image}" alt="${escapeHtml(item.name)}">
+                  <div class="char-card-label">${escapeHtml(item.name)}</div>
                   <div class="mystery-badge">
                     <span class="mystery-icon">❓</span>
                   </div>
@@ -1234,8 +1251,9 @@
               } else {
                 slotDiv.innerHTML = `
                   <div class="char-card-canvas" style="background: ${item.color || GRADIENTS[0]}">
-                    <span class="canvas-initial">${item.name.charAt(0)}</span>
+                    <div class="canvas-name">${escapeHtml(item.name)}</div>
                   </div>
+                  <div class="char-card-label">${escapeHtml(item.name)}</div>
                   <div class="mystery-badge">
                     <span class="mystery-icon">❓</span>
                   </div>
@@ -1384,7 +1402,7 @@
         } else {
           card.innerHTML = `
             <div class="char-card-canvas" style="background: ${item.color || GRADIENTS[0]}">
-              <span class="canvas-initial">${item.name.charAt(0)}</span>
+              <div class="canvas-name">${escapeHtml(item.name)}</div>
             </div>
             <div class="char-card-label">${escapeHtml(item.name)}</div>
             <div class="char-card-del-btn" title="${currentLang === 'ar' ? 'حذف' : 'Delete'}">&times;</div>
@@ -1612,6 +1630,27 @@
         document.getElementById('web-search-modal').classList.remove('open');
       });
 
+      // Google Images Direct Button
+      document.getElementById('btn-open-google-images').addEventListener('click', () => {
+        const q = document.getElementById('web-query-input').value.trim();
+        if (!q) return;
+        window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`, '_blank');
+        showToast(currentLang === 'ar' ? 'تم فتح صور Google! انسخ رابط الصورة واضغط لصق' : 'Opened Google Images! Copy image link and paste');
+      });
+
+      // Paste from clipboard button
+      document.getElementById('btn-paste-clipboard').addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            document.getElementById('direct-url-input').value = text;
+            applyDirectUrl(text);
+          }
+        } catch(e) {
+          showToast(currentLang === 'ar' ? 'يرجى لصق الرابط يدويًّا في المربع' : 'Please paste URL into input manually');
+        }
+      });
+
       // Web search exec
       document.getElementById('btn-exec-search').addEventListener('click', () => {
         const q = document.getElementById('web-query-input').value.trim();
@@ -1621,18 +1660,60 @@
       // Apply direct URL
       document.getElementById('btn-apply-direct-url').addEventListener('click', () => {
         const url = document.getElementById('direct-url-input').value.trim();
-        if (!url || !activeSearchCardId) return;
+        applyDirectUrl(url);
+      });
 
-        const card = customItems.find(x => x.id === activeSearchCardId);
-        if (card) {
-          card.image = url;
-          saveState();
-          renderPyramid();
-          renderDock();
-          document.getElementById('web-search-modal').classList.remove('open');
-          showToast(currentLang === 'ar' ? 'تم تحديث الصورة!' : 'Updated image!');
+      // Global paste support (Ctrl+V / Paste)
+      window.addEventListener('paste', (e) => {
+        const text = e.clipboardData?.getData('text')?.trim();
+        if (text && (text.startsWith('http://') || text.startsWith('https://') || text.startsWith('data:image'))) {
+          if (activeSearchCardId) {
+            applyDirectUrl(text);
+            return;
+          }
+        }
+        const items = e.clipboardData?.items;
+        if (items) {
+          for (let item of items) {
+            if (item.type.indexOf('image') !== -1) {
+              const file = item.getAsFile();
+              const reader = new FileReader();
+              reader.onload = (event) => {
+                if (activeSearchCardId) {
+                  applyDirectUrl(event.target.result);
+                } else {
+                  const newItem = {
+                    id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+                    name: currentLang === 'ar' ? 'صورة ملصوقة' : 'Pasted Image',
+                    image: event.target.result,
+                    type: 'uploaded',
+                    color: null
+                  };
+                  customItems.push(newItem);
+                  saveState();
+                  renderDock();
+                  showToast(currentLang === 'ar' ? 'تمت إضافة الصورة الملصوقة' : 'Added pasted image');
+                }
+              };
+              reader.readAsDataURL(file);
+              break;
+            }
+          }
         }
       });
+    }
+
+    function applyDirectUrl(url) {
+      if (!url || !activeSearchCardId) return;
+      const card = customItems.find(x => x.id === activeSearchCardId);
+      if (card) {
+        card.image = url;
+        saveState();
+        renderPyramid();
+        renderDock();
+        document.getElementById('web-search-modal').classList.remove('open');
+        showToast(currentLang === 'ar' ? 'تم اختيار الصورة!' : 'Selected image!');
+      }
     }
 
     function toggleLanguage() {
@@ -1655,6 +1736,8 @@
       document.getElementById('ui-names-tip').textContent = dict.namesTip;
       document.getElementById('ui-generate-btn').textContent = dict.generateBtn;
       document.getElementById('ui-search-modal-title').textContent = dict.searchModalTitle;
+      document.getElementById('ui-google-btn-text').textContent = dict.googleBtnText;
+      document.getElementById('btn-paste-clipboard').textContent = dict.pasteClipboard;
       document.getElementById('lang-label').textContent = currentLang === 'ar' ? 'EN' : 'عربي';
 
       renderPyramid();
@@ -1674,31 +1757,39 @@
       container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--gold); padding: 1rem;">جاري البحث عن صور...</div>';
 
       try {
-        // Search Wikimedia Commons & Wikipedia summary in parallel
         const cleanQ = encodeURIComponent(query.replace(/\s+/g, '_'));
-        const [wikiRes, commonsRes] = await Promise.allSettled([
+        const [arWikiRes, enWikiRes, arSearchRes] = await Promise.allSettled([
+          fetch(`https://ar.wikipedia.org/api/rest_v1/page/summary/${cleanQ}`).then(r => r.json()),
           fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cleanQ}`).then(r => r.json()),
-          fetch(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(query)}&gsrlimit=6&prop=imageinfo&iiprop=url|thumburl&iiurlwidth=280`).then(r => r.json())
+          fetch(`https://ar.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=0&gsrsearch=${encodeURIComponent(query)}&gsrlimit=6&prop=pageimages&piprop=thumbnail&pithumbsize=300`).then(r => r.json())
         ]);
 
         const results = [];
 
-        // Check Wikipedia summary thumbnail
-        if (wikiRes.status === 'fulfilled' && wikiRes.value?.thumbnail?.source) {
-          results.push(wikiRes.value.thumbnail.source);
+        // 1. Direct Arabic Wikipedia summary thumbnail
+        if (arWikiRes.status === 'fulfilled' && arWikiRes.value?.thumbnail?.source) {
+          results.push(arWikiRes.value.thumbnail.source);
         }
 
-        // Check Wikimedia Commons
-        if (commonsRes.status === 'fulfilled' && commonsRes.value?.query?.pages) {
-          const pages = Object.values(commonsRes.value.query.pages);
+        // 2. Direct English Wikipedia summary thumbnail
+        if (enWikiRes.status === 'fulfilled' && enWikiRes.value?.thumbnail?.source) {
+          if (!results.includes(enWikiRes.value.thumbnail.source)) {
+            results.push(enWikiRes.value.thumbnail.source);
+          }
+        }
+
+        // 3. Search results thumbnails from Arabic Wikipedia articles
+        if (arSearchRes.status === 'fulfilled' && arSearchRes.value?.query?.pages) {
+          const pages = Object.values(arSearchRes.value.query.pages);
           pages.forEach(p => {
-            const thumb = p.imageinfo?.[0]?.thumburl || p.imageinfo?.[0]?.url;
-            if (thumb && !results.includes(thumb)) results.push(thumb);
+            if (p.thumbnail?.source && !results.includes(p.thumbnail.source)) {
+              results.push(p.thumbnail.source);
+            }
           });
         }
 
         if (results.length === 0) {
-          container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); font-size: 0.78rem; padding: 1rem;">لم يُعثر على صور مقترحة. يمكنك لصق رابط صورة مباشر بالأعلى!</div>';
+          container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); font-size: 0.78rem; padding: 1rem;">لم يُعثر على مقترحات سريعة. اضغط زر "افتح بحث صور Google" بالأعلى لاختيار أي صورة!</div>';
           return;
         }
 
@@ -1708,21 +1799,13 @@
           thumbCard.className = 'search-thumb-card';
           thumbCard.innerHTML = `<img src="${imgUrl}" alt="suggestion" loading="lazy">`;
           thumbCard.onclick = () => {
-            const card = customItems.find(x => x.id === activeSearchCardId);
-            if (card) {
-              card.image = imgUrl;
-              saveState();
-              renderPyramid();
-              renderDock();
-              document.getElementById('web-search-modal').classList.remove('open');
-              showToast(currentLang === 'ar' ? 'تم اختيار الصورة!' : 'Selected image!');
-            }
+            applyDirectUrl(imgUrl);
           };
           container.appendChild(thumbCard);
         });
       } catch(err) {
         console.error('Web search error:', err);
-        container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: #fda4af; font-size: 0.78rem; padding: 1rem;">تعذر جلب الصور تلقائيًّا. يمكنك لصق رابط صورة مباشر بالأعلى.</div>';
+        container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: #fda4af; font-size: 0.78rem; padding: 1rem;">اضغط زر "افتح بحث صور Google" بالأعلى لتصفح واختيار الصورة.</div>';
       }
     }
 
