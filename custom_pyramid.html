@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>صانع الهرم المخصص 🎨 | Custom Pyramid Maker</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+  
+  <script src="html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #070d18;
+      --bg-card: #0d1627;
+      --accent: #f59e0b;
+      --accent-light: #fbbf24;
+      --accent-glow: rgba(245, 158, 11, 0.4);
+      --gold: #f59e0b;
+      --gold-light: #fef08a;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --slot-bg: rgba(255, 255, 255, 0.03);
+      --slot-border: rgba(245, 158, 11, 0.3);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #070d18 70%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background: rgba(11, 18, 32, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      min-height: 52px;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      font-size: 1.35rem;
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--gold-light);
+      text-shadow: 0 0 10px var(--gold-glow);
+      line-height: 1.2;
+    }
+    .brand-subtitle {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: nowrap;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: var(--transition);
+      font-family: inherit;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      border-color: var(--gold);
+      color: #fff;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+    .btn-danger {
+      background: rgba(225, 29, 72, 0.2);
+      border-color: rgba(225, 29, 72, 0.5);
+      color: #fda4af;
+    }
+    .btn-danger:hover {
+      background: rgba(225, 29, 72, 0.4);
+      color: #fff;
+    }
+    .btn-lang {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+    }
+    .control-group input[type="number"] {
+      width: 44px;
+      background: #0f172a;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--gold);
+      padding: 0.2rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-align: center;
+      outline: none;
+      font-family: inherit;
+    }
+
+    /* Main Workspace */
+    .app-workspace {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Pyramid Canvas Section (Scrolls freely) */
+    .pyramid-section {
+      flex: 1;
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.25rem 1rem 220px 1rem;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+    }
+
+    .pyramid-wrapper {
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #pyramid-export-node {
+      background: radial-gradient(ellipse at center, rgba(17, 24, 39, 0.95), rgba(7, 13, 24, 0.98));
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 158, 11, 0.15);
+      border-radius: 18px;
+      padding: 1.25rem 1.75rem 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 320px;
+    }
+
+    /* Editable Title */
+    .pyramid-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .pyramid-title-input {
+      background: transparent;
+      border: 1px dashed rgba(245, 158, 11, 0.4);
+      color: var(--gold-light);
+      font-weight: 900;
+      font-size: clamp(0.95rem, 3.2vw, 1.25rem);
+      text-align: center;
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
+      outline: none;
+      font-family: inherit;
+      transition: var(--transition);
+      min-width: 240px;
+    }
+    .pyramid-title-input:focus {
+      border-color: var(--gold);
+      background: rgba(245, 158, 11, 0.1);
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    /* Pyramid Rows and Slots */
+    .pyramid-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .pyramid-row-badge {
+      position: absolute;
+      right: -32px;
+      color: rgba(245, 158, 11, 0.5);
+      font-size: 0.72rem;
+      font-weight: 900;
+      width: 22px;
+      text-align: center;
+      pointer-events: none;
+    }
+    html[dir="ltr"] .pyramid-row-badge {
+      right: auto;
+      left: -32px;
+    }
+
+    .slot {
+      width: 72px;
+      height: 72px;
+      background: var(--slot-bg);
+      border: 2px dashed var(--slot-border);
+      border-radius: var(--radius-md);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      overflow: hidden;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
+    }
+    .pyramid-row:first-of-type .slot {
+      width: 90px;
+      height: 90px;
+      border: 3px solid var(--gold);
+      box-shadow: 0 0 20px var(--gold-glow);
+      background: rgba(245, 158, 11, 0.1);
+      border-radius: 12px;
+    }
+    .slot:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 14px var(--gold-glow);
+      transform: scale(1.05);
+      z-index: 2;
+    }
+    .slot.drag-over {
+      border-color: #38bdf8;
+      background: rgba(2, 132, 199, 0.25);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.6);
+      transform: scale(1.1);
+    }
+    .slot.selected-slot {
+      border-color: #22c55e;
+      border-style: solid;
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.6);
+      animation: slotPulse 1.2s infinite alternate;
+    }
+    @keyframes slotPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    .slot-empty-icon {
+      font-size: 1.2rem;
+      color: rgba(245, 158, 11, 0.35);
+      font-weight: 900;
+      pointer-events: none;
+    }
+    .pyramid-row:first-of-type .slot-empty-icon {
+      font-size: 2rem;
+      color: var(--gold-light);
+    }
+
+    .slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .slot .remove-btn {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 20px;
+      height: 20px;
+      background: rgba(225, 29, 72, 0.95);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 5;
+    }
+    html[dir="rtl"] .slot .remove-btn {
+      right: auto;
+      left: 3px;
+    }
+    .slot:hover .remove-btn {
+      opacity: 1;
+    }
+
+    .slot .mystery-btn {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 5;
+    }
+    html[dir="rtl"] .slot .mystery-btn {
+      left: auto;
+      right: 3px;
+    }
+    .slot:hover .mystery-btn {
+      opacity: 1;
+    }
+
+    .slot.mystery-mode img {
+      filter: blur(8px) brightness(0.25);
+    }
+    .slot .mystery-badge {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.25), rgba(7, 13, 24, 0.85));
+      z-index: 3;
+    }
+    .slot.mystery-mode .mystery-badge {
+      display: flex;
+    }
+    .mystery-icon {
+      font-size: 1.3rem;
+    }
+    .mystery-num {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--gold-light);
+    }
+
+    /* ==========================================================================
+       BOTTOM FIXED CUSTOM DOCK (مثبت بمسمار أسفل الشاشة مثل TIERLIST)
+       ========================================================================== */
+    .custom-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(11, 18, 32, 0.98);
+      backdrop-filter: blur(16px);
+      border-top: 2px solid rgba(245, 158, 11, 0.45);
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      padding: 0.35rem 0.65rem max(0.45rem, env(safe-area-inset-bottom)) 0.65rem;
+      gap: 0.3rem;
+    }
+
+    /* Action buttons in dock */
+    .dock-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      flex-shrink: 0;
+    }
+    .dock-actions::-webkit-scrollbar {
+      display: none;
+    }
+
+    .dock-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: var(--transition);
+      font-family: inherit;
+      white-space: nowrap;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    .dock-btn:hover {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: var(--gold);
+    }
+    .dock-btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border-color: var(--gold);
+      color: #000;
+      font-weight: 800;
+    }
+    .dock-btn-primary:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    .dock-search {
+      flex: 1;
+      min-width: 130px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .dock-search input {
+      width: 100%;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0 1.8rem 0 0.6rem;
+      font-size: 0.78rem;
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-family: inherit;
+    }
+    html[dir="rtl"] .dock-search input {
+      padding: 0 0.6rem 0 1.8rem;
+    }
+    .dock-search input:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .dock-search-icon {
+      position: absolute;
+      right: 0.55rem;
+      font-size: 0.75rem;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    html[dir="rtl"] .dock-search-icon {
+      right: auto;
+      left: 0.55rem;
+    }
+
+    .dock-counter {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      padding: 0 0.3rem;
+    }
+    .dock-counter strong {
+      color: var(--gold-light);
+    }
+
+    /* Cards Tray: STRICTLY ONE SINGLE HORIZONTAL LINE (سطر واحد فقط بتمرير سلس) */
+    .dock-tray {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      white-space: nowrap !important;
+      gap: 0.45rem !important;
+      padding: 0.2rem 0.2rem 0.35rem 0.2rem !important;
+      height: 82px !important;
+      align-items: center !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .dock-tray::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Character / Item Card */
+    .char-card {
+      width: 70px;
+      height: 70px;
+      min-width: 70px;
+      max-width: 70px;
+      position: relative;
+      background: #0f172a;
+      border: 1.5px solid var(--card-border);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: grab;
+      transition: var(--transition);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+    .char-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 6px 14px var(--gold-glow);
+      z-index: 10;
+    }
+    .char-card:active {
+      cursor: grabbing;
+      transform: scale(0.96);
+    }
+    .char-card.in-pyramid {
+      opacity: 0.55;
+      filter: grayscale(40%);
+    }
+
+    .char-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Text-generated card visual */
+    .char-card-canvas {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: #fff;
+      text-align: center;
+      padding: 4px;
+      position: relative;
+    }
+    .char-card-canvas .canvas-initial {
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 2px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .char-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 3px 2px 1px 2px;
+      background: linear-gradient(to top, rgba(7, 13, 24, 0.95), rgba(7, 13, 24, 0.6) 70%, transparent);
+      font-size: 0.52rem;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 2;
+    }
+
+    /* Card Actions Overlay (Delete / Search Web) */
+    .char-card-del-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 18px;
+      height: 18px;
+      background: rgba(225, 29, 72, 0.9);
+      color: #fff;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      z-index: 5;
+    }
+    html[dir="rtl"] .char-card-del-btn {
+      right: auto;
+      left: 2px;
+    }
+    .char-card:hover .char-card-del-btn {
+      display: flex;
+    }
+
+    .char-card-web-btn {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: rgba(14, 165, 233, 0.9);
+      color: #fff;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      cursor: pointer;
+      z-index: 5;
+    }
+    html[dir="rtl"] .char-card-web-btn {
+      left: auto;
+      right: 2px;
+    }
+    .char-card:hover .char-card-web-btn {
+      display: flex;
+    }
+
+    /* Empty Pool Notice */
+    .empty-pool-tip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      gap: 0.4rem;
+    }
+
+    /* Modals System */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #0d1627;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 480px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--gold-glow);
+      overflow: hidden;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      padding: 0.85rem 1.1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 0.1rem 0.4rem;
+      line-height: 1;
+    }
+    .modal-close-btn:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 1rem 1.1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .modal-body textarea {
+      width: 100%;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fff;
+      padding: 0.6rem;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-family: inherit;
+      resize: vertical;
+    }
+    .modal-body textarea:focus {
+      border-color: var(--gold);
+    }
+
+    /* Web Search Results Grid */
+    .search-results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .search-thumb-card {
+      width: 100%;
+      height: 80px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      position: relative;
+    }
+    .search-thumb-card:hover {
+      border-color: var(--gold);
+      transform: scale(1.03);
+    }
+    .search-thumb-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 4.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(13, 22, 39, 0.95);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 0.55rem 1.25rem;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 20px var(--gold-glow);
+      z-index: 3000;
+      opacity: 0;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      pointer-events: none;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Hidden file input */
+    #hidden-file-input {
+      display: none;
+    }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 860px) {
+      header {
+        padding: 0.35rem 0.5rem;
+        min-height: 44px;
+      }
+      .brand-subtitle {
+        display: none;
+      }
+      .brand-title {
+        font-size: 0.85rem;
+        max-width: 110px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .btn span {
+        display: none;
+      }
+      .control-group label {
+        display: none;
+      }
+      .control-group input[type="number"] {
+        width: 34px;
+        font-size: 0.76rem;
+      }
+      .slot {
+        width: clamp(38px, 9.5vw, 52px);
+        height: clamp(38px, 9.5vw, 52px);
+        border-radius: 8px;
+      }
+      .pyramid-row:first-of-type .slot {
+        width: clamp(52px, 13vw, 70px);
+        height: clamp(52px, 13vw, 70px);
+        border-radius: 10px;
+      }
+      .slot .remove-btn {
+        display: flex !important;
+        opacity: 0.95 !important;
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
+      }
+      .slot .mystery-btn {
+        display: flex !important;
+        opacity: 0.95 !important;
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+      }
+      .char-card-del-btn, .char-card-web-btn {
+        display: flex !important;
+        opacity: 0.85 !important;
+      }
+      .dock-actions {
+        padding: 0.1rem 0;
+      }
+      .dock-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.72rem;
+      }
+      .dock-search {
+        min-width: 110px;
+      }
+      .dock-counter {
+        font-size: 0.68rem;
+      }
+      .pyramid-section {
+        padding-bottom: 220px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="brand-section">
+      <span class="brand-icon">🎨</span>
+      <div class="brand-text">
+        <span class="brand-title" id="ui-brand-title">صانع الهرم المخصص</span>
+        <span class="brand-subtitle" id="ui-brand-subtitle">ارفع صورك وصمم هرم التقييم الخاص بك</span>
+      </div>
+      <div class="header-links">
+        <a href="index.html" class="btn" title="الانتقال إلى هرم ون بيس">🏴‍☠️ <span>ون بيس</span></a>
+        <a href="https://adil7sai7.github.io/conan-pyramid/" target="_blank" rel="noopener noreferrer" class="btn" title="الانتقال إلى هرم كونان">🔍 <span>كونان</span></a>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Language Button -->
+      <button class="btn btn-lang" id="btn-lang" title="Switch Language">
+        🌐 <span id="lang-label">EN</span>
+      </button>
+
+      <!-- Height Control -->
+      <div class="control-group">
+        <label for="height-input" id="ui-height-label">الطوابق:</label>
+        <input type="number" id="height-input" min="1" max="25" value="6">
+      </div>
+
+      <!-- Clear Pyramid -->
+      <button class="btn btn-danger" id="btn-clear" title="تفريغ الهرم">
+        🧹 <span id="ui-clear-btn">تفريغ</span>
+      </button>
+
+      <!-- Download PNG -->
+      <button class="btn btn-gold" id="btn-download" title="تحميل كصورة">
+        📸 <span id="ui-download-btn">تحميل صورة</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Canvas Workspace -->
+  <main class="app-workspace">
+    <section class="pyramid-section">
+      <div class="pyramid-wrapper">
+        <div id="pyramid-export-node">
+          <!-- Editable Pyramid Title -->
+          <div class="pyramid-title-wrap">
+            <input type="text" class="pyramid-title-input" id="pyramid-title" value="هرم التقييم المخصص 👑" title="انقر لتعديل عنوان الهرم">
+          </div>
+
+          <!-- Dynamic Pyramid Rows Container -->
+          <div id="pyramid-rows-container" style="display: flex; flex-direction: column; align-items: center; gap: 0.65rem; width: 100%;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FIXED BOTTOM DOCK (مثبت بمسمار أسفل الشاشة مثل TIERLIST) -->
+  <aside class="custom-dock">
+    <!-- Action buttons row -->
+    <div class="dock-actions">
+      <button class="dock-btn dock-btn-primary" id="btn-upload-photos" title="اختر صورًا من جهازك">
+        📷 <span id="ui-upload-btn">رفع صور</span>
+      </button>
+      <button class="dock-btn" id="btn-add-names" title="كتابة أسماء لتوليد كروت فورية">
+        ✍️ <span id="ui-names-btn">إضافة بالأسماء</span>
+      </button>
+      
+      <div class="dock-search">
+        <span class="dock-search-icon">🔍</span>
+        <input type="text" id="dock-search-input" placeholder="بحث في العناصر المضافة...">
+      </div>
+
+      <div class="dock-counter">
+        <span id="ui-counter-label">العناصر:</span> <strong id="dock-count">0</strong>
+      </div>
+
+      <button class="dock-btn" id="btn-clear-dock" title="مسح جميع العناصر المضافة" style="color: #fda4af;">
+        🗑️
+      </button>
+    </div>
+
+    <!-- Cards Tray: Strictly ONE single horizontal line (سطر واحد فقط بتمرير أفقي) -->
+    <div class="dock-tray" id="dock-tray-container">
+      <div class="empty-pool-tip" id="empty-pool-tip">
+        <span>👈 اضغط على <strong>رفع صور</strong> أو <strong>إضافة بالأسماء</strong> للبدء</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Hidden File Input for Image Upload -->
+  <input type="file" id="hidden-file-input" multiple accept="image/*">
+
+  <!-- Add Names Modal -->
+  <div class="modal-overlay" id="names-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>✍️</span> <span id="ui-names-modal-title">إضافة عناصر بالأسماء</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-names-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.78rem; color: var(--text-muted);" id="ui-names-tip">
+          اكتب الأسماء التي تريد تقييمها (كل اسم في سطر، أو مفصولة بفواصل):
+        </p>
+        <textarea id="names-textarea" placeholder="مثال:&#10;لوفي&#10;زورو&#10;سانجي&#10;نامي"></textarea>
+        
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button class="btn btn-gold" id="btn-generate-names">
+            ✨ <span id="ui-generate-btn">توليد الكروت</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Web Image Search / Edit Modal -->
+  <div class="modal-overlay" id="web-search-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🔍</span> <span id="ui-search-modal-title">بحث عن صورة على الإنترنت</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-search-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 0.4rem;">
+          <input type="text" id="web-query-input" placeholder="اسم العنصر أو الشخصية..." style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(245,158,11,0.3); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.82rem;">
+          <button class="btn btn-gold" id="btn-exec-search">بحث</button>
+        </div>
+
+        <div style="font-size: 0.72rem; color: var(--text-muted);">أو الصق رابط صورة مباشر:</div>
+        <div style="display: flex; gap: 0.4rem;">
+          <input type="url" id="direct-url-input" placeholder="https://example.com/image.jpg" style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 0.35rem 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.78rem;">
+          <button class="btn" id="btn-apply-direct-url">تطبيق</button>
+        </div>
+
+        <div style="font-size: 0.75rem; font-weight: 700; color: var(--gold-light); margin-top: 0.2rem;">نتائج مقترحة:</div>
+        <div class="search-results-grid" id="search-results-container">
+          <div style="grid-column: span 3; text-align: center; color: var(--text-muted); font-size: 0.75rem; padding: 1rem;">
+            اكتب اسمًا واضغط بحث
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-msg">
+    <span>✅</span> <span id="toast-text">تمت العملية</span>
+  </div>
+
+  <!-- Main JavaScript Engine -->
+  <script>
+    /* ==========================================================================
+       CUSTOM PYRAMID ENGINE
+       ========================================================================== */
+    const STORAGE_KEY_CUSTOM_ITEMS = 'custom_pyramid_items_v1';
+    const STORAGE_KEY_CUSTOM_SLOTS = 'custom_pyramid_slots_v1';
+    const STORAGE_KEY_CUSTOM_HEIGHT = 'custom_pyramid_height_v1';
+    const STORAGE_KEY_CUSTOM_TITLE = 'custom_pyramid_title_v1';
+
+    let customItems = []; // Array of { id, name, image, type: 'uploaded'|'canvas'|'web', color }
+    let pyramidSlots = {}; // { '1_1': itemId, ... }
+    let mysterySlots = new Set();
+    let currentHeight = 6;
+    let selectedSlotForPlacement = null;
+    let activeSearchCardId = null;
+    let currentLang = 'ar';
+
+    const I18N = {
+      ar: {
+        brandTitle: 'صانع الهرم المخصص',
+        brandSubtitle: 'ارفع صورك وصمم هرم التقييم الخاص بك',
+        heightLabel: 'الطوابق:',
+        clearBtn: 'تفريغ',
+        downloadBtn: 'تحميل صورة',
+        uploadBtn: 'رفع صور',
+        namesBtn: 'إضافة بالأسماء',
+        counterLabel: 'العناصر:',
+        searchPlaceholder: 'بحث في العناصر المضافة...',
+        emptyTip: '👈 اضغط على رفع صور أو إضافة بالأسماء للبدء',
+        namesModalTitle: 'إضافة عناصر بالأسماء',
+        namesTip: 'اكتب الأسماء التي تريد تقييمها (كل اسم في سطر، أو مفصولة بفواصل):',
+        generateBtn: 'توليد الكروت',
+        searchModalTitle: 'بحث عن صورة على الإنترنت',
+        toastPlaced: 'تم إيداع العنصر',
+        toastRemoved: 'تمت إزالة العنصر',
+        toastCleared: 'تم تفريغ الهرم',
+        toastGenerated: 'تم توليد الكروت بنجاح',
+        emptySlotTip: 'انقر لوضع عنصر هنا',
+        removeTitle: 'إزالة من الهرم'
+      },
+      en: {
+        brandTitle: 'Custom Pyramid Maker',
+        brandSubtitle: 'Upload photos & create your custom tier pyramid',
+        heightLabel: 'Tiers:',
+        clearBtn: 'Clear',
+        downloadBtn: 'Download PNG',
+        uploadBtn: 'Upload Photos',
+        namesBtn: 'Add by Names',
+        counterLabel: 'Items:',
+        searchPlaceholder: 'Search added items...',
+        emptyTip: '👈 Click Upload Photos or Add by Names to start',
+        namesModalTitle: 'Add Items by Names',
+        namesTip: 'Type names to rank (one per line, or comma-separated):',
+        generateBtn: 'Generate Cards',
+        searchModalTitle: 'Search Web Image',
+        toastPlaced: 'Placed item',
+        toastRemoved: 'Removed item',
+        toastCleared: 'Cleared pyramid',
+        toastGenerated: 'Cards generated successfully',
+        emptySlotTip: 'Click to place an item here',
+        removeTitle: 'Remove from pyramid'
+      }
+    };
+
+    const GRADIENTS = [
+      'linear-gradient(135deg, #4f46e5, #7c3aed)',
+      'linear-gradient(135deg, #059669, #0d9488)',
+      'linear-gradient(135deg, #dc2626, #ea580c)',
+      'linear-gradient(135deg, #d97706, #b45309)',
+      'linear-gradient(135deg, #2563eb, #0284c7)',
+      'linear-gradient(135deg, #db2777, #9333ea)',
+      'linear-gradient(135deg, #0284c7, #0d9488)',
+      'linear-gradient(135deg, #e11d48, #be123c)'
+    ];
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      renderPyramid();
+      renderDock();
+      setupEventListeners();
+    });
+
+    function loadState() {
+      try {
+        const savedItems = localStorage.getItem(STORAGE_KEY_CUSTOM_ITEMS);
+        if (savedItems) customItems = JSON.parse(savedItems);
+
+        const savedSlots = localStorage.getItem(STORAGE_KEY_CUSTOM_SLOTS);
+        if (savedSlots) pyramidSlots = JSON.parse(savedSlots);
+
+        const savedHeight = localStorage.getItem(STORAGE_KEY_CUSTOM_HEIGHT);
+        if (savedHeight) currentHeight = parseInt(savedHeight, 10);
+        document.getElementById('height-input').value = currentHeight;
+
+        const savedTitle = localStorage.getItem(STORAGE_KEY_CUSTOM_TITLE);
+        if (savedTitle) document.getElementById('pyramid-title').value = savedTitle;
+      } catch(e) {
+        console.warn('Error loading local state:', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY_CUSTOM_ITEMS, JSON.stringify(customItems));
+        localStorage.setItem(STORAGE_KEY_CUSTOM_SLOTS, JSON.stringify(pyramidSlots));
+        localStorage.setItem(STORAGE_KEY_CUSTOM_HEIGHT, currentHeight.toString());
+        localStorage.setItem(STORAGE_KEY_CUSTOM_TITLE, document.getElementById('pyramid-title').value);
+      } catch(e) {
+        console.warn('Storage quota or error:', e);
+      }
+      updateStats();
+    }
+
+    function updateStats() {
+      const placedCount = Object.keys(pyramidSlots).length;
+      const totalCount = customItems.length;
+      document.getElementById('dock-count').textContent = `${totalCount} (${placedCount} بالهرم)`;
+    }
+
+    /* Render Pyramid */
+    function renderPyramid() {
+      const rowsContainer = document.getElementById('pyramid-rows-container');
+      if (!rowsContainer) return;
+      rowsContainer.innerHTML = '';
+
+      const isAr = currentLang === 'ar';
+      const dict = I18N[currentLang];
+
+      for (let r = 1; r <= currentHeight; r++) {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'pyramid-row';
+        rowDiv.id = `row-${r}`;
+
+        const badge = document.createElement('div');
+        badge.className = 'pyramid-row-badge';
+        badge.textContent = `${r}`;
+        rowDiv.appendChild(badge);
+
+        for (let c = 1; c <= r; c++) {
+          const slotId = `${r}_${c}`;
+          const slotDiv = document.createElement('div');
+          slotDiv.className = 'slot';
+          slotDiv.dataset.slotId = slotId;
+
+          if (selectedSlotForPlacement === slotId) {
+            slotDiv.classList.add('selected-slot');
+          }
+
+          const assignedId = pyramidSlots[slotId];
+          const isMystery = mysterySlots.has(slotId);
+
+          if (assignedId) {
+            const item = customItems.find(x => x.id === assignedId);
+            if (item) {
+              slotDiv.draggable = true;
+              slotDiv.title = item.name;
+
+              if (isMystery) slotDiv.classList.add('mystery-mode');
+
+              if (item.image) {
+                slotDiv.innerHTML = `
+                  <img src="${item.image}" alt="${escapeHtml(item.name)}">
+                  <div class="mystery-badge">
+                    <span class="mystery-icon">❓</span>
+                  </div>
+                  <div class="remove-btn" title="${dict.removeTitle}">&times;</div>
+                  <div class="mystery-btn" title="غموض">❓</div>
+                `;
+              } else {
+                slotDiv.innerHTML = `
+                  <div class="char-card-canvas" style="background: ${item.color || GRADIENTS[0]}">
+                    <span class="canvas-initial">${item.name.charAt(0)}</span>
+                  </div>
+                  <div class="mystery-badge">
+                    <span class="mystery-icon">❓</span>
+                  </div>
+                  <div class="remove-btn" title="${dict.removeTitle}">&times;</div>
+                  <div class="mystery-btn" title="غموض">❓</div>
+                `;
+              }
+
+              // Drag start
+              slotDiv.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', assignedId);
+                e.dataTransfer.setData('source-slot', slotId);
+              });
+            }
+          } else {
+            slotDiv.draggable = false;
+            slotDiv.title = dict.emptySlotTip;
+            slotDiv.innerHTML = `<span class="slot-empty-icon">${r === 1 ? '👑' : '+'}</span>`;
+          }
+
+          // Slot clicks
+          slotDiv.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-btn')) {
+              e.stopPropagation();
+              delete pyramidSlots[slotId];
+              mysterySlots.delete(slotId);
+              saveState();
+              renderPyramid();
+              renderDock();
+              showToast(dict.toastRemoved);
+              return;
+            }
+
+            if (e.target.classList.contains('mystery-btn')) {
+              e.stopPropagation();
+              if (mysterySlots.has(slotId)) mysterySlots.delete(slotId);
+              else mysterySlots.add(slotId);
+              renderPyramid();
+              return;
+            }
+
+            // If empty slot clicked: select it for mobile placement
+            if (!pyramidSlots[slotId]) {
+              if (selectedSlotForPlacement === slotId) {
+                selectedSlotForPlacement = null;
+              } else {
+                selectedSlotForPlacement = slotId;
+                showToast(isAr ? 'اختر عنصرًا من الشريط بالأسفل لوضعه هنا' : 'Select an item from the dock below to place here');
+              }
+              renderPyramid();
+            } else {
+              selectedSlotForPlacement = null;
+              renderPyramid();
+            }
+          });
+
+          // Drag & Drop
+          slotDiv.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            slotDiv.classList.add('drag-over');
+          });
+          slotDiv.addEventListener('dragleave', () => {
+            slotDiv.classList.remove('drag-over');
+          });
+          slotDiv.addEventListener('drop', (e) => {
+            e.preventDefault();
+            slotDiv.classList.remove('drag-over');
+
+            const itemId = e.dataTransfer.getData('text/plain');
+            const sourceSlot = e.dataTransfer.getData('source-slot');
+            if (!itemId) return;
+
+            if (sourceSlot && sourceSlot !== slotId) {
+              const prev = pyramidSlots[slotId];
+              pyramidSlots[slotId] = itemId;
+              if (prev) pyramidSlots[sourceSlot] = prev;
+              else delete pyramidSlots[sourceSlot];
+            } else {
+              pyramidSlots[slotId] = itemId;
+            }
+
+            saveState();
+            renderPyramid();
+            renderDock();
+          });
+
+          rowDiv.appendChild(slotDiv);
+        }
+
+        rowsContainer.appendChild(rowDiv);
+      }
+
+      updateStats();
+    }
+
+    /* Render Bottom Dock Tray (Strictly ONE single horizontal row - سطر واحد فقط) */
+    function renderDock() {
+      const container = document.getElementById('dock-tray-container');
+      if (!container) return;
+      const searchVal = document.getElementById('dock-search-input').value.trim().toLowerCase();
+
+      container.innerHTML = '';
+
+      if (customItems.length === 0) {
+        container.innerHTML = `
+          <div class="empty-pool-tip">
+            <span>${I18N[currentLang].emptyTip}</span>
+          </div>
+        `;
+        updateStats();
+        return;
+      }
+
+      const filtered = customItems.filter(item => {
+        if (!searchVal) return true;
+        return item.name.toLowerCase().includes(searchVal);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-pool-tip">
+            <span>🔍 ${currentLang === 'ar' ? 'لا توجد نتائج مطابقة للبحث' : 'No matching items found'}</span>
+          </div>
+        `;
+        updateStats();
+        return;
+      }
+
+      const assignedSet = new Set(Object.values(pyramidSlots));
+
+      filtered.forEach(item => {
+        const isPlaced = assignedSet.has(item.id);
+        const card = document.createElement('div');
+        card.className = `char-card ${isPlaced ? 'in-pyramid' : ''}`;
+        card.draggable = !isPlaced;
+        card.dataset.id = item.id;
+        card.title = isPlaced ? `${item.name} (${currentLang === 'ar' ? 'في الهرم' : 'in pyramid'})` : item.name;
+
+        if (item.image) {
+          card.innerHTML = `
+            <img src="${item.image}" alt="${escapeHtml(item.name)}" loading="lazy">
+            <div class="char-card-label">${escapeHtml(item.name)}</div>
+            <div class="char-card-del-btn" title="${currentLang === 'ar' ? 'حذف' : 'Delete'}">&times;</div>
+            <div class="char-card-web-btn" title="${currentLang === 'ar' ? 'بحث عن صورة' : 'Search image'}">🔍</div>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="char-card-canvas" style="background: ${item.color || GRADIENTS[0]}">
+              <span class="canvas-initial">${item.name.charAt(0)}</span>
+            </div>
+            <div class="char-card-label">${escapeHtml(item.name)}</div>
+            <div class="char-card-del-btn" title="${currentLang === 'ar' ? 'حذف' : 'Delete'}">&times;</div>
+            <div class="char-card-web-btn" title="${currentLang === 'ar' ? 'بحث عن صورة' : 'Search image'}">🔍</div>
+          `;
+        }
+
+        // Drag start from dock
+        card.addEventListener('dragstart', (e) => {
+          if (isPlaced) {
+            e.preventDefault();
+            return;
+          }
+          e.dataTransfer.setData('text/plain', item.id);
+        });
+
+        // Click to place
+        card.addEventListener('click', (e) => {
+          // Delete card
+          if (e.target.classList.contains('char-card-del-btn')) {
+            e.stopPropagation();
+            deleteCard(item.id);
+            return;
+          }
+
+          // Search web image
+          if (e.target.classList.contains('char-card-web-btn')) {
+            e.stopPropagation();
+            openWebSearch(item);
+            return;
+          }
+
+          if (isPlaced) {
+            showToast(currentLang === 'ar' ? `هذا العنصر مضاف بالهرم بالفعل` : `Item already placed in pyramid`);
+            return;
+          }
+
+          // Place into selected slot or next empty slot
+          if (selectedSlotForPlacement) {
+            pyramidSlots[selectedSlotForPlacement] = item.id;
+            selectedSlotForPlacement = null;
+          } else {
+            placeInNextEmptySlot(item.id);
+          }
+
+          saveState();
+          renderPyramid();
+          renderDock();
+          showToast(currentLang === 'ar' ? `تم إيداع ${item.name}` : `Placed ${item.name}`);
+        });
+
+        container.appendChild(card);
+      });
+
+      updateStats();
+    }
+
+    function placeInNextEmptySlot(itemId) {
+      for (let r = 1; r <= currentHeight; r++) {
+        for (let c = 1; c <= r; c++) {
+          const sId = `${r}_${c}`;
+          if (!pyramidSlots[sId]) {
+            pyramidSlots[sId] = itemId;
+            return;
+          }
+        }
+      }
+    }
+
+    function deleteCard(itemId) {
+      customItems = customItems.filter(x => x.id !== itemId);
+      for (let s in pyramidSlots) {
+        if (pyramidSlots[s] === itemId) delete pyramidSlots[s];
+      }
+      saveState();
+      renderPyramid();
+      renderDock();
+      showToast(currentLang === 'ar' ? 'تم حذف العنصر' : 'Item deleted');
+    }
+
+    /* Event Listeners */
+    function setupEventListeners() {
+      // Height Input
+      const heightInput = document.getElementById('height-input');
+      heightInput.addEventListener('change', (e) => {
+        let val = parseInt(e.target.value, 10);
+        if (isNaN(val) || val < 1) val = 1;
+        if (val > 25) val = 25;
+        currentHeight = val;
+        e.target.value = val;
+        saveState();
+        renderPyramid();
+      });
+
+      // Clear Pyramid
+      document.getElementById('btn-clear').addEventListener('click', () => {
+        if (confirm(currentLang === 'ar' ? 'هل تريد تفريغ جميع الخانات في الهرم؟' : 'Clear all slots in the pyramid?')) {
+          pyramidSlots = {};
+          mysterySlots.clear();
+          saveState();
+          renderPyramid();
+          renderDock();
+          showToast(I18N[currentLang].toastCleared);
+        }
+      });
+
+      // Download PNG
+      document.getElementById('btn-download').addEventListener('click', async () => {
+        const node = document.getElementById('pyramid-export-node');
+        showToast(currentLang === 'ar' ? 'جاري تجهيز الصورة...' : 'Generating image...');
+
+        try {
+          const canvas = await html2canvas(node, {
+            backgroundColor: '#070d18',
+            scale: 2,
+            useCORS: true,
+            allowTaint: true
+          });
+          const link = document.createElement('a');
+          const title = (document.getElementById('pyramid-title').value.trim() || 'custom-pyramid').replace(/\s+/g, '_');
+          link.download = `${title}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          showToast(currentLang === 'ar' ? 'تم تحميل الصورة!' : 'Downloaded image!');
+        } catch(err) {
+          console.error('html2canvas error:', err);
+          showToast(currentLang === 'ar' ? 'حدث خطأ في تحميل الصورة' : 'Error downloading image');
+        }
+      });
+
+      // Upload Images button
+      const fileInput = document.getElementById('hidden-file-input');
+      document.getElementById('btn-upload-photos').addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        if (!files.length) return;
+
+        files.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const rawName = file.name.replace(/\.[^/.]+$/, "");
+            const newItem = {
+              id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+              name: rawName,
+              image: event.target.result,
+              type: 'uploaded',
+              color: null
+            };
+            customItems.push(newItem);
+            saveState();
+            renderDock();
+          };
+          reader.readAsDataURL(file);
+        });
+
+        fileInput.value = '';
+        showToast(currentLang === 'ar' ? `تم رفع ${files.length} صورة` : `Uploaded ${files.length} photos`);
+      });
+
+      // Add by Names Modal
+      const namesModal = document.getElementById('names-modal');
+      document.getElementById('btn-add-names').addEventListener('click', () => {
+        namesModal.classList.add('open');
+        document.getElementById('names-textarea').focus();
+      });
+      document.getElementById('btn-close-names-modal').addEventListener('click', () => {
+        namesModal.classList.remove('open');
+      });
+
+      // Generate Names Button
+      document.getElementById('btn-generate-names').addEventListener('click', () => {
+        const text = document.getElementById('names-textarea').value.trim();
+        if (!text) return;
+
+        const rawList = text.split(/[\n,،]+/).map(s => s.trim()).filter(Boolean);
+        if (!rawList.length) return;
+
+        rawList.forEach((name, idx) => {
+          const color = GRADIENTS[idx % GRADIENTS.length];
+          const newItem = {
+            id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+            name: name,
+            image: null,
+            type: 'canvas',
+            color: color
+          };
+          customItems.push(newItem);
+        });
+
+        document.getElementById('names-textarea').value = '';
+        namesModal.classList.remove('open');
+        saveState();
+        renderDock();
+        showToast(I18N[currentLang].toastGenerated);
+      });
+
+      // Clear all items in dock
+      document.getElementById('btn-clear-dock').addEventListener('click', () => {
+        if (confirm(currentLang === 'ar' ? 'هل تريد مسح جميع العناصر المضافة بالكامل؟' : 'Delete all added items completely?')) {
+          customItems = [];
+          pyramidSlots = {};
+          mysterySlots.clear();
+          saveState();
+          renderPyramid();
+          renderDock();
+          showToast(currentLang === 'ar' ? 'تم مسح جميع العناصر' : 'Cleared all items');
+        }
+      });
+
+      // Search in dock
+      document.getElementById('dock-search-input').addEventListener('input', () => {
+        renderDock();
+      });
+
+      // Language Switcher
+      document.getElementById('btn-lang').addEventListener('click', () => {
+        toggleLanguage();
+      });
+
+      // Web search modal close
+      document.getElementById('btn-close-search-modal').addEventListener('click', () => {
+        document.getElementById('web-search-modal').classList.remove('open');
+      });
+
+      // Web search exec
+      document.getElementById('btn-exec-search').addEventListener('click', () => {
+        const q = document.getElementById('web-query-input').value.trim();
+        if (q) performWebSearch(q);
+      });
+
+      // Apply direct URL
+      document.getElementById('btn-apply-direct-url').addEventListener('click', () => {
+        const url = document.getElementById('direct-url-input').value.trim();
+        if (!url || !activeSearchCardId) return;
+
+        const card = customItems.find(x => x.id === activeSearchCardId);
+        if (card) {
+          card.image = url;
+          saveState();
+          renderPyramid();
+          renderDock();
+          document.getElementById('web-search-modal').classList.remove('open');
+          showToast(currentLang === 'ar' ? 'تم تحديث الصورة!' : 'Updated image!');
+        }
+      });
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ar' ? 'en' : 'ar';
+      const dict = I18N[currentLang];
+
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+      document.getElementById('ui-brand-title').textContent = dict.brandTitle;
+      document.getElementById('ui-brand-subtitle').textContent = dict.brandSubtitle;
+      document.getElementById('ui-height-label').textContent = dict.heightLabel;
+      document.getElementById('ui-clear-btn').textContent = dict.clearBtn;
+      document.getElementById('ui-download-btn').textContent = dict.downloadBtn;
+      document.getElementById('ui-upload-btn').textContent = dict.uploadBtn;
+      document.getElementById('ui-names-btn').textContent = dict.namesBtn;
+      document.getElementById('ui-counter-label').textContent = dict.counterLabel;
+      document.getElementById('dock-search-input').placeholder = dict.searchPlaceholder;
+      document.getElementById('ui-names-modal-title').textContent = dict.namesModalTitle;
+      document.getElementById('ui-names-tip').textContent = dict.namesTip;
+      document.getElementById('ui-generate-btn').textContent = dict.generateBtn;
+      document.getElementById('ui-search-modal-title').textContent = dict.searchModalTitle;
+      document.getElementById('lang-label').textContent = currentLang === 'ar' ? 'EN' : 'عربي';
+
+      renderPyramid();
+      renderDock();
+    }
+
+    function openWebSearch(item) {
+      activeSearchCardId = item.id;
+      document.getElementById('web-query-input').value = item.name;
+      document.getElementById('direct-url-input').value = '';
+      document.getElementById('web-search-modal').classList.add('open');
+      performWebSearch(item.name);
+    }
+
+    async function performWebSearch(query) {
+      const container = document.getElementById('search-results-container');
+      container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--gold); padding: 1rem;">جاري البحث عن صور...</div>';
+
+      try {
+        // Search Wikimedia Commons & Wikipedia summary in parallel
+        const cleanQ = encodeURIComponent(query.replace(/\s+/g, '_'));
+        const [wikiRes, commonsRes] = await Promise.allSettled([
+          fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cleanQ}`).then(r => r.json()),
+          fetch(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(query)}&gsrlimit=6&prop=imageinfo&iiprop=url|thumburl&iiurlwidth=280`).then(r => r.json())
+        ]);
+
+        const results = [];
+
+        // Check Wikipedia summary thumbnail
+        if (wikiRes.status === 'fulfilled' && wikiRes.value?.thumbnail?.source) {
+          results.push(wikiRes.value.thumbnail.source);
+        }
+
+        // Check Wikimedia Commons
+        if (commonsRes.status === 'fulfilled' && commonsRes.value?.query?.pages) {
+          const pages = Object.values(commonsRes.value.query.pages);
+          pages.forEach(p => {
+            const thumb = p.imageinfo?.[0]?.thumburl || p.imageinfo?.[0]?.url;
+            if (thumb && !results.includes(thumb)) results.push(thumb);
+          });
+        }
+
+        if (results.length === 0) {
+          container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); font-size: 0.78rem; padding: 1rem;">لم يُعثر على صور مقترحة. يمكنك لصق رابط صورة مباشر بالأعلى!</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        results.forEach(imgUrl => {
+          const thumbCard = document.createElement('div');
+          thumbCard.className = 'search-thumb-card';
+          thumbCard.innerHTML = `<img src="${imgUrl}" alt="suggestion" loading="lazy">`;
+          thumbCard.onclick = () => {
+            const card = customItems.find(x => x.id === activeSearchCardId);
+            if (card) {
+              card.image = imgUrl;
+              saveState();
+              renderPyramid();
+              renderDock();
+              document.getElementById('web-search-modal').classList.remove('open');
+              showToast(currentLang === 'ar' ? 'تم اختيار الصورة!' : 'Selected image!');
+            }
+          };
+          container.appendChild(thumbCard);
+        });
+      } catch(err) {
+        console.error('Web search error:', err);
+        container.innerHTML = '<div style="grid-column: span 3; text-align: center; color: #fda4af; font-size: 0.78rem; padding: 1rem;">تعذر جلب الصور تلقائيًّا. يمكنك لصق رابط صورة مباشر بالأعلى.</div>';
+      }
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('toast-msg');
+      const toastText = document.getElementById('toast-text');
+      toastText.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      })[m]);
+    }
+  </script>
+</body>
+</html>
