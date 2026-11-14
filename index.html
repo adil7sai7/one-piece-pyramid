@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>هرم شخصيات ون بيس 🏴‍☠️ | One Piece Pyramid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+  <script src="html2canvas.min.js"></script>
+  <script src="one_piece_characters.js?v=9"></script>
+  <style>
+    :root {
+      --bg-dark: #070d18;
+      --bg-gradient: radial-gradient(circle at 50% 20%, #111d33 0%, #070d18 75%);
+      --card-bg: rgba(18, 28, 48, 0.85);
+      --card-border: rgba(245, 158, 11, 0.25);
+      --gold: #f59e0b;
+      --gold-light: #fcd34d;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --crimson: #e11d48;
+      --ocean-blue: #0284c7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --slot-bg: rgba(15, 23, 42, 0.65);
+      --slot-border: rgba(245, 158, 11, 0.35);
+      --slot-hover: rgba(245, 158, 11, 0.65);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-dark);
+      background-image: var(--bg-gradient);
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* English mode font adjustments */
+    html[lang="en"] body {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    html[lang="en"] .brand-title {
+      font-family: 'Cinzel', 'Cairo', serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(245, 158, 11, 0.3);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(245, 158, 11, 0.6);
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: rgba(7, 13, 24, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .brand-icon {
+      font-size: 1.6rem;
+      filter: drop-shadow(0 0 8px var(--gold-glow));
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff 30%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.2;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #070d18;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.45);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--gold);
+    }
+
+    .btn-danger {
+      background: rgba(225, 29, 72, 0.15);
+      color: #fda4af;
+      border-color: rgba(225, 29, 72, 0.35);
+    }
+    .btn-danger:hover {
+      background: rgba(225, 29, 72, 0.3);
+      border-color: #f43f5e;
+      color: #fff;
+    }
+
+    .btn-lang {
+      background: rgba(2, 132, 199, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(2, 132, 199, 0.35);
+      font-weight: 800;
+    }
+    .btn-lang:hover {
+      background: rgba(2, 132, 199, 0.3);
+      border-color: #38bdf8;
+    }
+    .lang-desktop-label {
+      display: inline;
+    }
+    .lang-mobile-label {
+      display: none;
+    }
+
+    .control-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.8rem;
+    }
+    .control-group label {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .control-group input[type="number"] {
+      width: 42px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: var(--gold-light);
+      font-weight: 800;
+      border-radius: 4px;
+      text-align: center;
+      padding: 0.2rem;
+      font-size: 0.85rem;
+    }
+
+    .stats-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 12px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--gold-light);
+    }
+    .stats-pill strong {
+      color: #fff;
+    }
+
+    /* Main Workspace Layout */
+    .app-workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Pyramid Canvas Area */
+    .pyramid-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      padding: 1.25rem;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+    }
+
+    .pyramid-wrapper {
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      min-width: min-content;
+      transition: var(--transition);
+    }
+
+    /* Export node styled like an ancient pirate treasure scroll */
+    #pyramid-export-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.5rem 2rem;
+      background: radial-gradient(circle at 50% 25%, rgba(17, 29, 51, 0.95), rgba(7, 13, 24, 0.98));
+      border: 2px solid rgba(245, 158, 11, 0.35);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(245, 158, 11, 0.04);
+      position: relative;
+    }
+
+    .pyramid-watermark {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      padding: 0.3rem 1.2rem;
+      border-top: 1px dashed rgba(245, 158, 11, 0.3);
+      border-bottom: 1px dashed rgba(245, 158, 11, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pyramid-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.45rem;
+      position: relative;
+    }
+
+    .pyramid-row-badge {
+      position: absolute;
+      left: -2.5rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      width: 1.8rem;
+      text-align: center;
+      opacity: 0.6;
+    }
+    html[dir="rtl"] .pyramid-row-badge {
+      left: auto;
+      right: -2.5rem;
+    }
+
+    /* Pyramid Slot */
+    .slot {
+      width: 76px;
+      height: 76px;
+      background: var(--slot-bg);
+      border: 2px dashed var(--slot-border);
+      border-radius: var(--radius-md);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      overflow: hidden;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
+    }
+    .pyramid-row:first-of-type .slot {
+      width: 96px;
+      height: 96px;
+      border: 3px solid var(--gold);
+      box-shadow: 0 0 25px var(--gold-glow);
+      background: rgba(245, 158, 11, 0.12);
+      border-radius: 14px;
+    }
+    .pyramid-large .slot {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+    }
+    .pyramid-large .pyramid-row:first-of-type .slot {
+      width: 80px;
+      height: 80px;
+    }
+    .pyramid-huge .slot {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+    }
+    
+    .pyramid-ultra .slot {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+    }
+    .pyramid-ultra .pyramid-row:first-of-type .slot {
+      width: 50px;
+      height: 50px;
+    }
+    .pyramid-ultra .slot .slot-empty-icon {
+      font-size: 0.8rem;
+    }
+    .pyramid-huge .slot .slot-empty-icon {
+      font-size: 0.95rem;
+    }
+    .pyramid-huge .pyramid-row:first-of-type .slot {
+      width: 64px;
+      height: 64px;
+    }
+    .slot:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 14px var(--gold-glow);
+      transform: scale(1.05);
+      z-index: 2;
+    }
+    .slot.drag-over {
+      border-color: #38bdf8;
+      background: rgba(2, 132, 199, 0.25);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.6);
+      transform: scale(1.1);
+    }
+    .slot.selected-slot {
+      border-color: #22c55e;
+      border-style: solid;
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.6);
+      animation: slotPulse 1.2s infinite alternate;
+    }
+    @keyframes slotPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    .slot-empty-icon {
+      font-size: 1.3rem;
+      color: rgba(245, 158, 11, 0.35);
+      font-weight: 900;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+    .pyramid-row:first-of-type .slot-empty-icon {
+      font-size: 2.2rem;
+      color: var(--gold-light);
+      opacity: 0.9;
+    }
+    .slot:hover .slot-empty-icon {
+      color: var(--gold);
+      transform: scale(1.2);
+    }
+
+    .slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Placed character card inside slot */
+    .slot .remove-btn {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 22px;
+      height: 22px;
+      background: rgba(225, 29, 72, 0.95);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 5;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    html[dir="rtl"] .slot .remove-btn {
+      right: auto;
+      left: 3px;
+    }
+    .slot:hover .remove-btn {
+      opacity: 1;
+    }
+
+    .slot .mystery-btn {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 5;
+    }
+    html[dir="rtl"] .slot .mystery-btn {
+      left: auto;
+      right: 3px;
+    }
+    .slot:hover .mystery-btn {
+      opacity: 1;
+    }
+
+    /* Mystery Mode Cover */
+    .slot.mystery-mode img {
+      filter: blur(8px) brightness(0.25);
+    }
+    .slot .mystery-badge {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.25), rgba(7, 13, 24, 0.85));
+      z-index: 3;
+    }
+    .slot.mystery-mode .mystery-badge {
+      display: flex;
+    }
+    .mystery-icon {
+      font-size: 1.5rem;
+      animation: float 2s ease-in-out infinite;
+    }
+    .mystery-num {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      text-shadow: 0 0 6px rgba(0,0,0,0.8);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    /* Character Drawer Sidebar */
+    .drawer-section {
+      width: 380px;
+      background: rgba(11, 18, 32, 0.95);
+      backdrop-filter: blur(14px);
+      border-inline-start: 1px solid rgba(245, 158, 11, 0.2);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 40;
+    }
+
+    .drawer-header {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-box input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #fff;
+      padding: 0.5rem 2.2rem 0.5rem 0.8rem;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    html[dir="rtl"] .search-box input {
+      padding: 0.5rem 0.8rem 0.5rem 2.2rem;
+    }
+    .search-box input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .search-icon {
+      position: absolute;
+      right: 0.75rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+    html[dir="rtl"] .search-icon {
+      right: auto;
+      left: 0.75rem;
+    }
+
+    .search-clear-btn {
+      position: absolute;
+      right: 2.2rem;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      line-height: 1;
+      transition: var(--transition);
+    }
+    html[dir="rtl"] .search-clear-btn {
+      right: auto;
+      left: 2.2rem;
+    }
+    .search-clear-btn:hover {
+      background: rgba(225, 29, 72, 0.8);
+      color: #fff;
+    }
+
+    .char-card.in-pyramid {
+      opacity: 0.55;
+      filter: grayscale(35%);
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+    .char-card.in-pyramid:hover {
+      opacity: 0.9;
+      filter: none;
+    }
+    .placed-badge {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      background: rgba(245, 158, 11, 0.95);
+      color: #070d18;
+      font-size: 0.5rem;
+      font-weight: 900;
+      padding: 1px 4px;
+      border-radius: 4px;
+      z-index: 4;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    html[dir="rtl"] .placed-badge {
+      right: auto;
+      left: 3px;
+    }
+
+    /* Filter Pills Scroll Container */
+        .filter-controls-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+    }
+    .category-select {
+      background: rgba(15, 28, 46, 0.95);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.76rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: var(--radius-sm);
+      outline: none;
+      cursor: pointer;
+      min-width: 165px;
+      max-width: 220px;
+      flex-shrink: 0;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    .category-select:focus {
+      border-color: var(--gold-light);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+    .category-select optgroup {
+      background: #070d18;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+    .category-select option {
+      background: #0f1c2e;
+      color: #fff;
+      padding: 4px;
+    }
+    @media (max-width: 600px) {
+      .filter-controls-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
+      }
+      .category-select {
+        min-width: 100%;
+        max-width: 100%;
+        font-size: 0.74rem;
+        padding: 0.3rem 0.5rem;
+      }
+    }
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+    }
+    .filter-pill {
+      padding: 0.28rem 0.65rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: inherit;
+    }
+    .filter-pill:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    .filter-pill.active {
+      background: var(--gold);
+      color: #070d18;
+      border-color: var(--gold);
+      font-weight: 800;
+      box-shadow: 0 2px 8px var(--gold-glow);
+    }
+    .filter-pill .pill-count {
+      font-size: 0.66rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    /* Characters Grid with 1:1 square ratio */
+    .cards-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+      gap: 0.6rem;
+      align-content: flex-start;
+    }
+
+    .char-card {
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%; /* Perfect 1:1 square ratio */
+      position: relative;
+      background: #0f172a;
+      border: 1.5px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: grab;
+      transition: var(--transition);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+    .char-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 6px 16px var(--gold-glow);
+      z-index: 10;
+    }
+    .char-card:active {
+      cursor: grabbing;
+      transform: scale(0.96);
+    }
+
+    .char-card img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .char-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 4px 2px 2px 2px;
+      background: linear-gradient(to top, rgba(7, 13, 24, 0.95), rgba(7, 13, 24, 0.6) 70%, transparent);
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.15;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-shadow: 0 1px 2px #000;
+    }
+
+    /* Modal System */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #0d1627;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 520px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--gold-glow);
+      overflow: hidden;
+      animation: modalFadeIn 0.25s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.94) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+      line-height: 1;
+    }
+    .modal-close-btn:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .preset-input-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .preset-input-group input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fff;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-family: inherit;
+    }
+    .preset-input-group input:focus {
+      border-color: var(--gold);
+    }
+
+    .presets-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .preset-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 0.85rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+    .preset-item:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+    .preset-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .preset-item-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #fff;
+    }
+    .preset-item-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .preset-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Mobile Drawer Handle and Toggle */
+    .mobile-drawer-handle {
+      display: none;
+      width: 48px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+      margin: 0.4rem auto 0.2rem auto;
+      cursor: pointer;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(13, 22, 39, 0.95);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 0.65rem 1.4rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 20px var(--gold-glow);
+      z-index: 120;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive Rules for Mobile Devices */
+    @media (max-width: 860px) {
+      body {
+        flex-direction: column;
+      }
+      header {
+        padding: 0.35rem 0.45rem;
+        gap: 0.25rem;
+        min-height: 44px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      .brand-section {
+        gap: 0.3rem;
+        flex-shrink: 0;
+      }
+      .brand-subtitle {
+        display: none;
+      }
+      .brand-title {
+        font-size: 0.85rem;
+        max-width: 105px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .brand-icon {
+        font-size: 1.1rem;
+      }
+      .header-actions {
+        gap: 0.25rem;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+      }
+      .btn {
+        padding: 0.3rem 0.4rem;
+        font-size: 0.72rem;
+        gap: 0.15rem;
+      }
+      /* Hide button labels on small mobile to keep single row */
+      .btn span {
+        display: none;
+      }
+      .lang-desktop-label {
+        display: none !important;
+      }
+      .lang-mobile-label {
+        display: inline !important;
+        font-weight: 800;
+        font-size: 0.72rem;
+      }
+      .control-group {
+        padding: 0.1rem 0.25rem;
+        gap: 0.15rem;
+        font-size: 0.7rem;
+      }
+      .control-group label {
+        display: none;
+      }
+      .control-group input[type="number"] {
+        width: 30px;
+        padding: 0.1rem;
+        font-size: 0.72rem;
+      }
+      .stats-pill {
+        display: none;
+      }
+
+      .app-workspace {
+        flex-direction: column;
+      }
+
+      /* Pyramid on Top, Drawer at Bottom */
+      .pyramid-section {
+        flex: 1;
+        min-height: 48vh;
+        padding: 0.4rem;
+        overflow: auto;
+      }
+      #pyramid-export-node {
+        padding: 0.6rem 0.4rem;
+      }
+      .slot {
+        width: clamp(38px, 9.2vw, 50px);
+        height: clamp(38px, 9.2vw, 50px);
+        border-radius: 8px;
+      }
+      .pyramid-row:first-of-type .slot {
+        width: clamp(52px, 12.5vw, 68px);
+        height: clamp(52px, 12.5vw, 68px);
+        border-radius: 10px;
+      }
+      .slot .remove-btn {
+        display: flex !important;
+        opacity: 0.95 !important;
+        width: 17px;
+        height: 17px;
+        font-size: 11px;
+        top: 2px;
+        left: 2px;
+      }
+      html[dir="ltr"] .slot .remove-btn {
+        left: auto;
+        right: 2px;
+      }
+      .pyramid-watermark {
+        font-size: clamp(0.58rem, 2.8vw, 0.75rem);
+        margin-bottom: 0.35rem;
+        padding: 0.15rem 0.5rem;
+        white-space: nowrap;
+      }
+
+      /* Drawer at Bottom */
+      .drawer-section {
+        width: 100%;
+        height: 42vh;
+        max-height: 44vh;
+        border-inline-start: none;
+        border-top: 1px solid rgba(245, 158, 11, 0.3);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+      }
+      .mobile-drawer-handle {
+        display: block;
+      }
+      .drawer-header {
+        padding: 0.35rem 0.55rem;
+        gap: 0.35rem;
+      }
+      .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+        gap: 0.4rem;
+        padding: 0.45rem;
+      }
+      .char-card-label {
+        font-size: 0.52rem;
+        padding: 0.12rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slot {
+        width: clamp(34px, 8.5vw, 44px);
+        height: clamp(34px, 8.5vw, 44px);
+      }
+      .pyramid-row:first-of-type .slot {
+        width: clamp(48px, 12vw, 58px);
+        height: clamp(48px, 12vw, 58px);
+      }
+      .slot-empty-icon {
+        font-size: 0.95rem;
+      }
+      .control-group input[type="number"] {
+        width: 34px;
+        font-size: 0.78rem;
+      }
+      .drawer-section {
+        height: 40vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header>
+    <div class="brand-section">
+      <span class="brand-icon">🏴‍☠️</span>
+      <div class="brand-text">
+        <span class="brand-title" id="ui-brand-title">هرم شخصيات ون بيس</span>
+        <span class="brand-subtitle" id="ui-brand-subtitle">صنف شخصيات عالم ون بيس في هرم القراصنة</span>
+      </div>
+      <a href="https://adil7sai7.github.io/conan-pyramid/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration: none; font-size: 0.72rem; padding: 0.25rem 0.5rem; border-color: rgba(255,255,255,0.18);" title="الانتقال إلى هرم كونان">
+        🔍 <span>كونان</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <!-- Language Switcher Button -->
+      <button class="btn btn-lang" id="btn-toggle-lang" title="Switch Language / تغيير اللغة">
+        🌐 <span class="lang-desktop-label" id="lang-desktop-label">English</span><span class="lang-mobile-label" id="lang-mobile-label">EN</span>
+      </button>
+
+      <!-- Height Selector -->
+      <div class="control-group">
+        <label for="height-input" id="ui-height-label">الارتفاع:</label>
+        <input type="number" id="height-input" min="1" max="30" value="6" title="عدد طوابق الهرم">
+      </div>
+
+      <!-- Placed Stats Badge -->
+      <div class="stats-pill" id="stats-badge">
+        <span id="ui-placed-label">في الهرم:</span> <strong id="count-placed">0</strong> / <span id="count-total-slots">21</span>
+      </div>
+
+      <!-- Presets Modal Button -->
+      <button class="btn btn-secondary" id="btn-presets">
+        📋 <span id="ui-presets-btn">الترتيبات</span>
+      </button>
+
+      <!-- Clear Pyramid Button -->
+      <button class="btn btn-danger" id="btn-clear" title="تفريغ الهرم">
+        🗑️ <span id="ui-clear-btn">تفريغ</span>
+      </button>
+
+      <!-- Download as PNG Button -->
+      <button class="btn btn-gold" id="btn-download">
+        📸 <span id="ui-download-btn">تحميل صورة</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace: Pyramid Area + Character Drawer -->
+  <main class="app-workspace">
+    <!-- Center / Top Pyramid Section -->
+    <section class="pyramid-section">
+      <div class="pyramid-wrapper">
+        <div id="pyramid-export-node">
+          <div class="pyramid-watermark" id="ui-watermark">
+            🏴‍☠️ هرم شخصيات ون بيس • ONE PIECE CHARACTER PYRAMID 🏴‍☠️
+          </div>
+          <!-- Rows will be injected dynamically by renderPyramid() -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Side / Bottom Character Drawer -->
+    <aside class="drawer-section" id="drawer-section">
+      <div class="mobile-drawer-handle" id="mobile-drawer-toggle" title="سحب أو طي"></div>
+
+      <div class="drawer-header">
+        <!-- Search Input -->
+        <div class="search-box">
+          <input type="text" id="char-search" placeholder="ابحث بالاسم العربي أو الإنجليزي..." autocomplete="off">
+          <button class="search-clear-btn" id="search-clear-btn" title="مسح البحث" style="display: none;">&times;</button>
+          <span class="search-icon">🔍</span>
+        </div>
+
+        <!-- Filter Controls Row (Dropdown Selector + Quick Filter Pills) -->
+        <div class="filter-controls-row">
+          <select id="category-select" class="category-select" title="اختر تصنيفًا من الجدول"></select>
+          <div class="filter-tabs" id="filter-tabs-container"></div>
+        </div>
+      </div>
+
+      <!-- Characters Grid Container -->
+      <div class="cards-grid" id="cards-container">
+        <!-- Character cards rendered dynamically -->
+      </div>
+    </aside>
+  </main>
+
+  <!-- Presets Modal -->
+  <div class="modal-overlay" id="presets-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📋</span> <span id="ui-presets-modal-title">إدارة الترتيبات المحفوظة</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-presets">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="preset-input-group">
+          <input type="text" id="new-preset-name" placeholder="اسم الترتيب (مثلاً: تصنيف القوة، المفضلين)...">
+          <button class="btn btn-gold" id="btn-save-current-preset">
+            💾 <span id="ui-save-preset-btn">حفظ</span>
+          </button>
+        </div>
+        <div class="presets-list" id="presets-list-container">
+          <!-- Saved presets list -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div class="toast" id="toast-msg">
+    <span>✅</span> <span id="toast-text">تمت العملية بنجاح</span>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       ONE PIECE PYRAMID BILINGUAL & RESPONSIVE ENGINE
+       ========================================================================== */
+
+    const STORAGE_KEY_SLOTS = 'one_piece_pyramid_slots_v1';
+    const STORAGE_KEY_HEIGHT = 'one_piece_pyramid_height_v1';
+    const STORAGE_KEY_MYSTERY = 'one_piece_pyramid_mystery_v1';
+    const STORAGE_KEY_PRESETS = 'one_piece_pyramid_presets_v1';
+    const STORAGE_KEY_LANG = 'one_piece_pyramid_lang_v1';
+
+    // Bilingual Dictionary
+    const I18N = {
+      ar: {
+        langCode: "ar",
+        dir: "rtl",
+        brandTitle: "هرم شخصيات ون بيس 🏴‍☠️",
+        brandSubtitle: "صنف شخصيات عالم ون بيس في هرم القراصنة",
+        searchPlaceholder: "ابحث بالاسم العربي أو الإنجليزي...",
+        heightLabel: "الارتفاع:",
+        placedLabel: "في الهرم:",
+        presetsBtn: "الترتيبات",
+        clearBtn: "تفريغ",
+        downloadBtn: "تحميل صورة",
+        btnSwitchLang: "🌐 English",
+        watermark: "🏴‍☠️ هرم شخصيات ون بيس • ONE PIECE CHARACTER PYRAMID 🏴‍☠️",
+        emptySlotTip: "خانة فارغة (انقر لاختيار شخصية)",
+        slotEmptyTop: "قمة الهرم 👑",
+        removeTitle: "إزالة",
+        mysteryToggleTitle: "انقر مرتين لتفعيل/إلغاء وضع الغموض ❓",
+        mysteryBadge: "مجهول",
+        confirmClear: "هل أنت متأكد من تفريغ كافة الشخصيات من الهرم؟",
+        clearedToast: "تم تفريغ الهرم بنجاح",
+        downloadingToast: "جاري توليد الصورة بجودة عالية...",
+        downloadSuccessToast: "تم تحميل الصورة بنجاح! 🏴‍☠️",
+        presetsModalTitle: "إدارة الترتيبات المحفوظة",
+        presetNamePlaceholder: "اسم الترتيب (مثلاً: تصنيف القوة، المفضلين)...",
+        savePresetBtn: "حفظ",
+        noPresetsMsg: "لا توجد ترتيبات محفوظة بعد. اكتب اسمًا واضغط حفظ!",
+        loadBtn: "تحميل",
+        delBtn: "حذف",
+        confirmDelPreset: "هل تريد حذف هذا الترتيب؟",
+        presetSavedToast: "تم حفظ الترتيب بنجاح!",
+        rowText: "طابق",
+        charsText: "شخصية",
+        filters: {
+          all: "الكل",
+          straw_hats: "قبعة القش",
+          yonko: "اليونكو",
+          warlords: "التشيبوكاي",
+          marines: "البحرية",
+          admirals: "الأدميرالات",
+          vice_admirals: "نواب الأدميرالات",
+          world_gov: "حكومة العالم",
+          gorosei: "الغوروسي",
+          gods_knights: "فرسان ماريجوا",
+          celestial_dragons: "التنانين السماوية",
+          revolutionary: "الجيش الثوري",
+          worst_gen: "الجيل الأسوأ",
+          rocks: "طاقم الروكس",
+          roger_pirates: "طاقم روجر",
+          cross_guild: "كروس غيلد",
+          straw_hat_fleet: "أسطول قبعة القش",
+          samurai: "الساموراي",
+          big_mom: "قراصنة بيغ مام",
+          beasts: "قراصنة الوحوش",
+          whitebeard: "اللحية البيضاء",
+          blackbeard: "اللحية السوداء",
+          red_hair: "أحمر الشعر",
+          kuja: "قراصنة كوجا",
+          sword: "منظمة السورد",
+          vegapunk: "نسخ فيغابانك",
+          mads: "علماء مادز",
+          germa: "مملكة جيرما",
+          clan_of_d: "عشيرة الدي",
+          conquerors_haki: "هاكي ملكي",
+          giants: "العمالقة",
+          minks: "المينك",
+          fishmen: "البرمائيين",
+          seraphim: "السيرافيم",
+          tontatta: "الأقزام",
+          logia: "فواكه لوغيا",
+          zoan: "فواكه زون",
+          paramecia: "فواكه باراميسيا",
+          captains: "القباطنة",
+          doctors: "الأطباء",
+          warriors: "المحاربين",
+          royalty: "الملوك والأمراء",
+          scientists: "العلماء",
+          cipher_pol: "سايفر بول",
+          impel_down: "الإمبل داون",
+          civilians: "مواطنون",
+          pirates: "قراصنة"
+        }
+      },
+      en: {
+        langCode: "en",
+        dir: "ltr",
+        brandTitle: "One Piece Character Pyramid 🏴‍☠️",
+        brandSubtitle: "Rank One Piece characters in your custom pirate pyramid",
+        searchPlaceholder: "Search by English or Arabic name...",
+        heightLabel: "Height:",
+        placedLabel: "Placed:",
+        presetsBtn: "Presets",
+        clearBtn: "Clear",
+        downloadBtn: "Download PNG",
+        btnSwitchLang: "🌐 العربية",
+        watermark: "🏴‍☠️ ONE PIECE CHARACTER PYRAMID • هرم شخصيات ون بيس 🏴‍☠️",
+        emptySlotTip: "Empty slot (Tap to place character)",
+        slotEmptyTop: "Pyramid Peak 👑",
+        removeTitle: "Remove",
+        mysteryToggleTitle: "Double tap to toggle Mystery Mode ❓",
+        mysteryBadge: "Mystery",
+        confirmClear: "Are you sure you want to clear all characters from the pyramid?",
+        clearedToast: "Pyramid cleared successfully",
+        downloadingToast: "Generating high-resolution image...",
+        downloadSuccessToast: "Image downloaded successfully! 🏴‍☠️",
+        presetsModalTitle: "Saved Pyramid Presets",
+        presetNamePlaceholder: "Preset name (e.g., Power Tier, Favorites)...",
+        savePresetBtn: "Save",
+        noPresetsMsg: "No saved presets yet. Type a name and click Save!",
+        loadBtn: "Load",
+        delBtn: "Delete",
+        confirmDelPreset: "Are you sure you want to delete this preset?",
+        presetSavedToast: "Preset saved successfully!",
+        rowText: "Tiers",
+        charsText: "characters",
+        filters: {
+          all: "All",
+          straw_hats: "Straw Hats",
+          yonko: "Yonko",
+          warlords: "Warlords",
+          marines: "Marines",
+          admirals: "Admirals",
+          vice_admirals: "Vice Admirals",
+          world_gov: "World Gov",
+          gorosei: "Gorosei",
+          gods_knights: "God's Knights",
+          celestial_dragons: "Celestial Dragons",
+          revolutionary: "Revolutionary",
+          worst_gen: "Worst Gen",
+          rocks: "Rocks Pirates",
+          roger_pirates: "Roger Pirates",
+          cross_guild: "Cross Guild",
+          straw_hat_fleet: "Straw Hat Fleet",
+          samurai: "Samurai",
+          big_mom: "Big Mom Pirates",
+          beasts: "Beast Pirates",
+          whitebeard: "Whitebeard",
+          blackbeard: "Blackbeard",
+          red_hair: "Red Hair",
+          kuja: "Kuja Pirates",
+          sword: "SWORD",
+          vegapunk: "Vegapunk",
+          mads: "MADS",
+          germa: "Germa 66",
+          clan_of_d: "Clan of D",
+          conquerors_haki: "Conqueror's Haki",
+          giants: "Giants",
+          minks: "Minks",
+          fishmen: "Fish-men",
+          seraphim: "Seraphim",
+          tontatta: "Tontatta",
+          logia: "Logia",
+          zoan: "Zoan",
+          paramecia: "Paramecia",
+          captains: "Captains",
+          doctors: "Doctors",
+          warriors: "Warriors",
+          royalty: "Royalty",
+          scientists: "Scientists",
+          cipher_pol: "Cipher Pol",
+          impel_down: "Impel Down",
+          civilians: "Civilians",
+          pirates: "Pirates"
+        }
+      }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || localStorage.getItem(STORAGE_KEY_LANG) || 'ar';
+    let currentHeight = parseInt(urlParams.get('height') || localStorage.getItem(STORAGE_KEY_HEIGHT) || '6', 10);
+    let pyramidSlots = {}; // { "1_1": "char_id", ... }
+    let mysterySlots = new Set(); // Set of slotId strings
+    let activeFilterKey = 'all';
+    let searchQuery = '';
+    let selectedSlotForPlacement = null; // For mobile tap-to-place flow
+
+    // Comprehensive categories strictly matching characters.csv schema
+    const CATEGORIES_DEF = [
+      // Quick / All
+      { key: 'all', field: 'all', val: '', ar: 'الكل', en: 'All', group: 'all', quick: true },
+
+      // Crews & Groups
+      { key: 'crew:قراصنة قبعة القش', field: 'crew', val: 'قراصنة قبعة القش', ar: 'قبعة القش', en: 'Straw Hats', group: 'crews', quick: true },
+      { key: 'titles:يونكو', field: 'titles', val: 'يونكو', ar: 'اليونكو', en: 'Yonko', group: 'titles', quick: true },
+      { key: 'titles:شيتشيبوكاي', field: 'titles', val: 'شيتشيبوكاي', ar: 'التشيبوكاي', en: 'Warlords', group: 'titles', quick: true },
+      { key: 'note_1:أدميرال', field: 'note_1', val: 'أدميرال', ar: 'الأدميرالات', en: 'Admirals', group: 'titles', quick: true },
+      { key: 'note_1:نائب أدميرال', field: 'note_1', val: 'نائب أدميرال', ar: 'نواب الأدميرالات', en: 'Vice Admirals', group: 'titles', quick: true },
+      { key: 'note_2:طاقم الروكس', field: 'note_2', val: 'طاقم الروكس', ar: 'طاقم الروكس', en: 'Rocks Pirates', group: 'crews', quick: true },
+      { key: 'note_2:نقابة الزائد', field: 'note_2', val: 'نقابة الزائد', ar: 'نقابة الزائد', en: 'Cross Guild', group: 'crews', quick: true },
+      { key: 'titles:ساموراي', field: 'titles', val: 'ساموراي', ar: 'الساموراي', en: 'Samurai', group: 'titles', quick: true },
+      { key: 'titles:غوروسي', field: 'titles', val: 'غوروسي', ar: 'الغوروسي', en: 'Gorosei', group: 'titles', quick: true },
+      { key: 'titles:فرسان ماريجوا', field: 'titles', val: 'فرسان ماريجوا', ar: 'فرسان ماريجوا', en: "God's Knights", group: 'titles', quick: true },
+      { key: 'titles:الجيل الأسوأ', field: 'titles', val: 'الجيل الأسوأ', ar: 'الجيل الأسوأ', en: 'Worst Generation', group: 'titles', quick: true },
+      { key: 'crew:البحرية', field: 'crew', val: 'البحرية', ar: 'البحرية', en: 'Marines', group: 'crews', quick: true },
+      { key: 'crew:حكومة العالم', field: 'crew', val: 'حكومة العالم', ar: 'حكومة العالم', en: 'World Gov', group: 'crews', quick: true },
+      { key: 'crew:الجيش الثوري', field: 'crew', val: 'الجيش الثوري', ar: 'الجيش الثوري', en: 'Revolutionary', group: 'crews', quick: true },
+      { key: 'crew:طاقم ملك القراصنة', field: 'crew', val: 'طاقم ملك القراصنة', ar: 'طاقم روجر', en: 'Roger Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة بيغ مام', field: 'crew', val: 'قراصنة بيغ مام', ar: 'قراصنة بيغ مام', en: 'Big Mom Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة الوحوش', field: 'crew', val: 'قراصنة الوحوش', ar: 'قراصنة الوحوش', en: 'Beast Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة اللحية البيضاء', field: 'crew', val: 'قراصنة اللحية البيضاء', ar: 'قراصنة اللحية البيضاء', en: 'Whitebeard Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة أحمر الشعر', field: 'crew', val: 'قراصنة أحمر الشعر', ar: 'قراصنة أحمر الشعر', en: 'Red Hair Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة اللحية السوداء', field: 'crew', val: 'قراصنة اللحية السوداء', ar: 'قراصنة اللحية السوداء', en: 'Blackbeard Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة كوجا', field: 'crew', val: 'قراصنة كوجا', ar: 'قراصنة كوجا', en: 'Kuja Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة دوفلامينغو', field: 'crew', val: 'قراصنة دوفلامينغو', ar: 'قراصنة دوفلامينغو', en: 'Donquixote Pirates', group: 'crews', quick: false },
+      { key: 'crew:باروك وركس', field: 'crew', val: 'باروك وركس', ar: 'باروك وركس', en: 'Baroque Works', group: 'crews', quick: false },
+      { key: 'crew:مملكة جيرما', field: 'crew', val: 'مملكة جيرما', ar: 'مملكة جيرما', en: 'Germa Kingdom', group: 'crews', quick: false },
+      { key: 'crew:الأغماد', field: 'crew', val: 'الأغماد', ar: 'الأغماد التسعة', en: 'Red Scabbards', group: 'crews', quick: false },
+      { key: 'crew:قراصنة القلب', field: 'crew', val: 'قراصنة القلب', ar: 'قراصنة القلب', en: 'Heart Pirates', group: 'crews', quick: false },
+      { key: 'crew:قراصنة الشمس', field: 'crew', val: 'قراصنة الشمس', ar: 'قراصنة الشمس', en: 'Sun Pirates', group: 'crews', quick: false },
+      { key: 'crew:إمبل داون', field: 'crew', val: 'إمبل داون', ar: 'إمبل داون', en: 'Impel Down', group: 'crews', quick: false },
+      { key: 'crew:فرسان الممالك', field: 'crew', val: 'فرسان الممالك', ar: 'فرسان الممالك', en: 'Kingdom Knights', group: 'crews', quick: false },
+
+      // Titles & Ranks
+      { key: 'titles:أسطول قبعة القش العظيم', field: 'titles', val: 'أسطول قبعة القش العظيم', ar: 'أسطول قبعة القش العظيم', en: 'Grand Fleet', group: 'titles', quick: false },
+      { key: 'note_2:منظمة السورد', field: 'note_2', val: 'منظمة السورد', ar: 'منظمة السورد', en: 'SWORD', group: 'titles', quick: false },
+      { key: 'titles:طبيب', field: 'titles', val: 'طبيب', ar: 'الأطباء', en: 'Doctors', group: 'titles', quick: false },
+      { key: 'titles:علماء مادز', field: 'titles', val: 'علماء مادز', ar: 'علماء مادز', en: 'MADS', group: 'titles', quick: false },
+      { key: 'titles:نسخ فيغابانك', field: 'titles', val: 'نسخ فيغابانك', ar: 'نسخ فيغابانك', en: 'Vegapunk Satellites', group: 'titles', quick: false },
+      { key: 'titles:العالم السفلي', field: 'titles', val: 'العالم السفلي', ar: 'العالم السفلي', en: 'Underworld Emperors', group: 'titles', quick: false },
+      { key: 'note_1:قائد', field: 'note_1', val: 'قائد', ar: 'القباطنة', en: 'Captains', group: 'titles', quick: false },
+      { key: 'note_1:سايبورغ', field: 'note_1', val: 'سايبورغ', ar: 'السايبورغ', en: 'Cyborgs', group: 'titles', quick: false },
+      { key: 'note_2:أجنحة ملك القراصنة', field: 'note_2', val: 'أجنحة ملك القراصنة', ar: 'أجنحة ملك القراصنة', en: 'Wings of Pirate King', group: 'titles', quick: false },
+      { key: 'note_2:عائلة شارلوت', field: 'note_2', val: 'عائلة شارلوت', ar: 'عائلة شارلوت', en: 'Charlotte Family', group: 'titles', quick: false },
+      { key: 'note_2:عائلة فينسموك', field: 'note_2', val: 'عائلة فينسموك', ar: 'عائلة فينسموك', en: 'Vinsmoke Family', group: 'titles', quick: false },
+      { key: 'note_2:عائلة كوزوكي', field: 'note_2', val: 'عائلة كوزوكي', ar: 'عائلة كوزوكي', en: 'Kozuki Family', group: 'titles', quick: false },
+
+      // Races & Clans
+      { key: 'race:دي', field: 'race', val: 'دي', ar: 'عشيرة الدي', en: 'Clan of D', group: 'races', quick: true },
+      { key: 'race:تنين سماوي', field: 'race', val: 'تنين سماوي', ar: 'التنانين السماوية', en: 'Celestial Dragons', group: 'races', quick: false },
+      { key: 'race:عملاق', field: 'race', val: 'عملاق', ar: 'العمالقة', en: 'Giants', group: 'races', quick: false },
+      { key: 'race:مينك', field: 'race', val: 'مينك', ar: 'المينك', en: 'Minks', group: 'races', quick: false },
+      { key: 'race:برمائي', field: 'race', val: 'برمائي', ar: 'البرمائيين', en: 'Fish-men', group: 'races', quick: false },
+      { key: 'race:الأقزام', field: 'race', val: 'الأقزام', ar: 'الأقزام (تونتاتا)', en: 'Tontatta Dwarves', group: 'races', quick: false },
+      { key: 'race:سيرافيم', field: 'race', val: 'سيرافيم', ar: 'السيرافيم', en: 'Seraphim', group: 'races', quick: false },
+      { key: 'race:حيوان', field: 'race', val: 'حيوان', ar: 'حيوانات ودواب', en: 'Animals', group: 'races', quick: false },
+
+      // Powers & Devil Fruits
+      { key: 'haki:موجود', field: 'haki', val: 'موجود', ar: 'هاكي ملكي', en: "Conqueror's Haki", group: 'powers', quick: true },
+      { key: 'fruit:لوغيا', field: 'fruit', val: 'لوغيا', ar: 'فواكه لوغيا', en: 'Logia', group: 'powers', quick: false },
+      { key: 'fruit:زون', field: 'fruit', val: 'زون', ar: 'فواكه زون', en: 'Zoan', group: 'powers', quick: false },
+      { key: 'fruit:باراميسيا', field: 'fruit', val: 'باراميسيا', ar: 'فواكه باراميسيا', en: 'Paramecia', group: 'powers', quick: false },
+      { key: 'fruit:سمايل', field: 'fruit', val: 'سمايل', ar: 'فواكه سمايل', en: 'SMILE', group: 'powers', quick: false },
+
+      // Professions
+      { key: 'profession:قرصان', field: 'profession', val: 'قرصان', ar: 'قراصنة', en: 'Pirates', group: 'professions', quick: false },
+      { key: 'profession:بحرية', field: 'profession', val: 'بحرية', ar: 'رجال بحرية', en: 'Marines (Prof)', group: 'professions', quick: false },
+      { key: 'profession:محارب', field: 'profession', val: 'محارب', ar: 'محاربين', en: 'Warriors', group: 'professions', quick: false },
+      { key: 'profession:مواطن', field: 'profession', val: 'مواطن', ar: 'مواطنين', en: 'Civilians', group: 'professions', quick: false },
+      { key: 'profession:ملك', field: 'profession', val: 'ملك', ar: 'ملوك', en: 'Kings', group: 'professions', quick: false },
+      { key: 'profession:أمير', field: 'profession', val: 'أمير', ar: 'أمراء', en: 'Princes', group: 'professions', quick: false },
+      { key: 'profession:ثوري', field: 'profession', val: 'ثوري', ar: 'ثوار', en: 'Revolutionaries', group: 'professions', quick: false },
+      { key: 'profession:عالم', field: 'profession', val: 'عالم', ar: 'علماء', en: 'Scientists', group: 'professions', quick: false },
+      { key: 'profession:سايفر بول', field: 'profession', val: 'سايفر بول', ar: 'سايفر بول', en: 'Cipher Pol', group: 'professions', quick: false }
+    ];
+
+    const GROUP_LABELS = {
+      ar: {
+        crews: '🏴‍☠️ الطواقم والانتماءات',
+        titles: '👑 الألقاب والرتب',
+        races: '🧬 الأعراق والعشائر',
+        powers: '⚡ القوى والفواكه',
+        professions: '⚔️ المهن'
+      },
+      en: {
+        crews: '🏴‍☠️ Crews & Organizations',
+        titles: '👑 Titles & Ranks',
+        races: '🧬 Races & Clans',
+        powers: '⚡ Powers & Fruits',
+        professions: '⚔️ Professions'
+      }
+    };
+
+    /* ==========================================================================
+       INIT & LANGUAGE HANDLING
+       ========================================================================== */
+
+    function init() {
+      loadState();
+      applyLanguage(currentLang);
+      renderFilterControls();
+      renderPyramid();
+      renderCards();
+      setupEventListeners();
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem(STORAGE_KEY_LANG, lang);
+      const dict = I18N[lang];
+
+      document.documentElement.lang = dict.langCode;
+      document.documentElement.dir = dict.dir;
+
+      // Update static UI labels
+      const safeSetText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      };
+      safeSetText('ui-brand-title', dict.brandTitle);
+      safeSetText('ui-brand-subtitle', dict.brandSubtitle);
+      safeSetText('ui-height-label', dict.heightLabel);
+      safeSetText('ui-placed-label', dict.placedLabel);
+      safeSetText('ui-presets-btn', dict.presetsBtn);
+      safeSetText('ui-clear-btn', dict.clearBtn);
+      safeSetText('ui-download-btn', dict.downloadBtn);
+      safeSetText('ui-watermark', dict.watermark);
+      const searchEl = document.getElementById('char-search');
+      if (searchEl) searchEl.placeholder = dict.searchPlaceholder;
+      safeSetText('ui-presets-modal-title', dict.presetsModalTitle);
+      const newPresetEl = document.getElementById('new-preset-name');
+      if (newPresetEl) newPresetEl.placeholder = dict.presetNamePlaceholder;
+      safeSetText('ui-save-preset-btn', dict.savePresetBtn);
+
+      // Lang toggle button label
+      const otherLang = lang === 'ar' ? 'en' : 'ar';
+      safeSetText('lang-desktop-label', I18N[otherLang].btnSwitchLang);
+      safeSetText('lang-mobile-label', otherLang.toUpperCase());
+
+      renderFilterControls();
+      renderPyramid();
+      renderCards();
+    }
+
+    function toggleLanguage() {
+      const nextLang = currentLang === 'ar' ? 'en' : 'ar';
+      applyLanguage(nextLang);
+      showToast(nextLang === 'en' ? 'Switched to English' : 'تم التحويل إلى العربية');
+    }
+
+    /* ==========================================================================
+       STORAGE & STATE
+       ========================================================================== */
+
+    function loadState() {
+      try {
+        const savedSlots = localStorage.getItem(STORAGE_KEY_SLOTS);
+        if (savedSlots) pyramidSlots = JSON.parse(savedSlots);
+
+        const savedMystery = localStorage.getItem(STORAGE_KEY_MYSTERY);
+        if (savedMystery) mysterySlots = new Set(JSON.parse(savedMystery));
+
+        const savedHeight = localStorage.getItem(STORAGE_KEY_HEIGHT);
+        if (savedHeight) {
+          currentHeight = Math.max(1, Math.min(30, parseInt(savedHeight, 10)));
+          document.getElementById('height-input').value = currentHeight;
+        }
+      } catch (e) {
+        console.warn("Error loading state:", e);
+      }
+      updateStats();
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY_SLOTS, JSON.stringify(pyramidSlots));
+        localStorage.setItem(STORAGE_KEY_MYSTERY, JSON.stringify([...mysterySlots]));
+        localStorage.setItem(STORAGE_KEY_HEIGHT, currentHeight.toString());
+      } catch (e) {
+        console.warn("Error saving state:", e);
+      }
+      updateStats();
+    }
+
+    function updateStats() {
+      const totalSlots = (currentHeight * (currentHeight + 1)) / 2;
+      const placedCount = Object.keys(pyramidSlots).length;
+      document.getElementById('count-placed').textContent = placedCount;
+      document.getElementById('count-total-slots').textContent = totalSlots;
+    }
+
+    /* ==========================================================================
+       PYRAMID RENDERING
+       ========================================================================== */
+
+    function getMysteryNumberMap() {
+      const sortedSlots = Object.keys(pyramidSlots)
+        .filter(s => mysterySlots.has(s))
+        .sort((a, b) => {
+          const [rA, cA] = a.split('_').map(Number);
+          const [rB, cB] = b.split('_').map(Number);
+          return rA !== rB ? rA - rB : cA - cB;
+        });
+
+      const map = {};
+      sortedSlots.forEach((slotId, idx) => {
+        map[slotId] = idx + 1;
+      });
+      return map;
+    }
+
+    function renderPyramid() {
+      const exportNode = document.getElementById('pyramid-export-node');
+      const watermarkEl = document.getElementById('ui-watermark');
+      exportNode.innerHTML = '';
+      exportNode.appendChild(watermarkEl);
+
+      exportNode.classList.remove('pyramid-large', 'pyramid-huge', 'pyramid-ultra');
+      if (currentHeight >= 18) {
+        exportNode.classList.add('pyramid-ultra');
+      } else if (currentHeight >= 12) {
+        exportNode.classList.add('pyramid-huge');
+      } else if (currentHeight >= 8) {
+        exportNode.classList.add('pyramid-large');
+      }
+
+      const dict = I18N[currentLang];
+      const mysteryMap = getMysteryNumberMap();
+
+      for (let r = 1; r <= currentHeight; r++) {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'pyramid-row';
+        rowDiv.id = `row-${r}`;
+
+        // Row indicator badge
+        const badge = document.createElement('div');
+        badge.className = 'pyramid-row-badge';
+        badge.textContent = `${r}`;
+        rowDiv.appendChild(badge);
+
+        for (let c = 1; c <= r; c++) {
+          const slotId = `${r}_${c}`;
+          const slotDiv = document.createElement('div');
+          slotDiv.className = 'slot';
+          slotDiv.dataset.slotId = slotId;
+
+          if (selectedSlotForPlacement === slotId) {
+            slotDiv.classList.add('selected-slot');
+          }
+
+          const assignedId = pyramidSlots[slotId];
+          const isMystery = mysterySlots.has(slotId);
+          const mysteryNum = mysteryMap[slotId] || 1;
+
+          if (assignedId) {
+            const charObj = ONE_PIECE_CHARACTERS.find(x => x.id === assignedId);
+            if (charObj) {
+              slotDiv.draggable = true;
+              if (isMystery) {
+                slotDiv.classList.add('mystery-mode');
+                slotDiv.title = `#${mysteryNum} (${charObj.name_en} / ${charObj.name_ar})`;
+              } else {
+                const displayName = currentLang === 'ar' ? charObj.name_ar : charObj.name_en;
+                slotDiv.title = displayName;
+              }
+
+              slotDiv.innerHTML = `
+                <img src="${charObj.file}?v=9" alt="${charObj.name_en}">
+                <div class="mystery-badge">
+                  <span class="mystery-icon">❓</span>
+                  <span class="mystery-num">#${mysteryNum}</span>
+                </div>
+                <div class="remove-btn" title="${dict.removeTitle}">&times;</div>
+                <div class="mystery-btn" title="${dict.mysteryToggleTitle}">❓</div>
+              `;
+
+              // Drag start from assigned slot
+              slotDiv.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', assignedId);
+                e.dataTransfer.setData('source-slot', slotId);
+              });
+            }
+          } else {
+            slotDiv.draggable = false;
+            slotDiv.title = dict.emptySlotTip;
+            slotDiv.innerHTML = `<span class="slot-empty-icon">${r === 1 ? '👑' : '+'}</span>`;
+          }
+
+          // Slot Click Handlers
+          slotDiv.addEventListener('click', (e) => {
+            // Remove button clicked
+            if (e.target.classList.contains('remove-btn')) {
+              e.stopPropagation();
+              delete pyramidSlots[slotId];
+              mysterySlots.delete(slotId);
+              saveState();
+              renderPyramid();
+              renderCards();
+              return;
+            }
+
+            // Mystery toggle button clicked
+            if (e.target.classList.contains('mystery-btn')) {
+              e.stopPropagation();
+              toggleMystery(slotId);
+              return;
+            }
+
+            // Empty slot tapped: toggle selection for mobile placement
+            if (!pyramidSlots[slotId]) {
+              if (selectedSlotForPlacement === slotId) {
+                selectedSlotForPlacement = null;
+              } else {
+                selectedSlotForPlacement = slotId;
+                showToast(currentLang === 'ar' ? 'اختر الآن شخصية من الأسفل لإيداعها' : 'Select a character below to place here');
+              }
+              renderPyramid();
+            } else {
+              selectedSlotForPlacement = null;
+              renderPyramid();
+            }
+          });
+
+          // Double click slot to toggle mystery mode
+          slotDiv.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            if (pyramidSlots[slotId]) {
+              toggleMystery(slotId);
+            }
+          });
+
+          // Drag & Drop Listeners
+          slotDiv.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            slotDiv.classList.add('drag-over');
+          });
+          slotDiv.addEventListener('dragleave', () => {
+            slotDiv.classList.remove('drag-over');
+          });
+          slotDiv.addEventListener('drop', (e) => {
+            e.preventDefault();
+            slotDiv.classList.remove('drag-over');
+
+            const charId = e.dataTransfer.getData('text/plain');
+            const sourceSlot = e.dataTransfer.getData('source-slot');
+
+            if (!charId) return;
+
+            if (sourceSlot && sourceSlot !== slotId) {
+              const prevCharInDest = pyramidSlots[slotId];
+              pyramidSlots[slotId] = charId;
+              if (prevCharInDest) {
+                pyramidSlots[sourceSlot] = prevCharInDest;
+              } else {
+                delete pyramidSlots[sourceSlot];
+                mysterySlots.delete(sourceSlot);
+              }
+            } else {
+              pyramidSlots[slotId] = charId;
+            }
+
+            saveState();
+            renderPyramid();
+            renderCards();
+          });
+
+          rowDiv.appendChild(slotDiv);
+        }
+
+        exportNode.appendChild(rowDiv);
+      }
+    }
+
+    function toggleMystery(slotId) {
+      if (mysterySlots.has(slotId)) {
+        mysterySlots.delete(slotId);
+      } else {
+        mysterySlots.add(slotId);
+      }
+      saveState();
+      renderPyramid();
+    }
+
+    /* ==========================================================================
+       FILTER CONTROLS & EXACT MATCHING
+       ========================================================================== */
+
+    function getCategoryCount(cat) {
+      if (!cat || cat.field === 'all') return ONE_PIECE_CHARACTERS.length;
+      if (['crew', 'titles', 'note_2', 'race', 'fruit', 'profession'].includes(cat.field)) {
+        return ONE_PIECE_CHARACTERS.filter(c => Array.isArray(c[cat.field]) && c[cat.field].includes(cat.val)).length;
+      }
+      if (['note_1', 'haki', 'origin', 'status'].includes(cat.field)) {
+        return ONE_PIECE_CHARACTERS.filter(c => c[cat.field] === cat.val).length;
+      }
+      return 0;
+    }
+
+    function charMatchesCategory(c, catKey) {
+      if (!catKey || catKey === 'all') return true;
+      const cat = CATEGORIES_DEF.find(x => x.key === catKey);
+      if (!cat) return true;
+      if (['crew', 'titles', 'note_2', 'race', 'fruit', 'profession'].includes(cat.field)) {
+        return Array.isArray(c[cat.field]) && c[cat.field].includes(cat.val);
+      }
+      if (['note_1', 'haki', 'origin', 'status'].includes(cat.field)) {
+        return c[cat.field] === cat.val;
+      }
+      return true;
+    }
+
+    function renderFilterControls() {
+      const selectEl = document.getElementById('category-select');
+      const tabsEl = document.getElementById('filter-tabs-container');
+      if (!selectEl || !tabsEl) return;
+
+      selectEl.innerHTML = '';
+      tabsEl.innerHTML = '';
+
+      const isAr = currentLang === 'ar';
+      const gl = GROUP_LABELS[currentLang];
+
+      // 1. Populate Dropdown
+      const allOpt = document.createElement('option');
+      allOpt.value = 'all';
+      allOpt.textContent = `${isAr ? '📋 كل الشخصيات' : '📋 All Characters'} (${ONE_PIECE_CHARACTERS.length})`;
+      selectEl.appendChild(allOpt);
+
+      const groups = ['crews', 'titles', 'races', 'powers', 'professions'];
+      groups.forEach(grp => {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = gl[grp] || grp;
+
+        const grpCats = CATEGORIES_DEF.filter(c => c.group === grp);
+        grpCats.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat.key;
+          const count = getCategoryCount(cat);
+          opt.textContent = `${isAr ? cat.ar : cat.en} (${count})`;
+          optgroup.appendChild(opt);
+        });
+
+        selectEl.appendChild(optgroup);
+      });
+
+      selectEl.value = activeFilterKey;
+      selectEl.onchange = (e) => {
+        activeFilterKey = e.target.value;
+        syncQuickPills();
+        renderCards();
+      };
+
+      // 2. Populate Quick Pills
+      const quickCats = CATEGORIES_DEF.filter(c => c.quick);
+      quickCats.forEach(cat => {
+        const pill = document.createElement('button');
+        pill.className = `filter-pill ${activeFilterKey === cat.key ? 'active' : ''}`;
+        pill.dataset.key = cat.key;
+        const count = getCategoryCount(cat);
+        const label = isAr ? cat.ar : cat.en;
+
+        pill.innerHTML = `
+          <span>${label}</span>
+          <span class="pill-count">${count}</span>
+        `;
+
+        pill.onclick = () => {
+          activeFilterKey = cat.key;
+          selectEl.value = activeFilterKey;
+          syncQuickPills();
+          renderCards();
+        };
+
+        tabsEl.appendChild(pill);
+      });
+    }
+
+    function syncQuickPills() {
+      const pills = document.querySelectorAll('.filter-pill');
+      pills.forEach(p => {
+        p.classList.toggle('active', p.dataset.key === activeFilterKey);
+      });
+    }
+
+    function normalizeText(str) {
+      if (!str) return '';
+      return String(str)
+        .toLowerCase()
+        .replace(/[أإآٱآ]/g, 'ا')
+        .replace(/[ة]/g, 'ه')
+        .replace(/[ىيیئ]/g, 'ي')
+        .replace(/[ؤ]/g, 'و')
+        .replace(/[كک]/g, 'ك')
+        .replace(/ـ/g, '')
+        .replace(/[ً-ٰٟۖ-ۭ]/g, '')
+        .replace(/[\s\-_.,'"()]+/g, ' ')
+        .trim();
+    }
+
+    function matchesSearch(charObj, query) {
+      if (!query) return true;
+      const qNorm = normalizeText(query);
+      if (!qNorm) return true;
+
+      const fieldsToSearch = [
+        charObj.name_en || '',
+        charObj.name_ar || '',
+        Array.isArray(charObj.profession) ? charObj.profession.join(' ') : (charObj.profession || ''),
+        Array.isArray(charObj.crew) ? charObj.crew.join(' ') : (charObj.crew || ''),
+        Array.isArray(charObj.titles) ? charObj.titles.join(' ') : (charObj.titles || ''),
+        charObj.note_1 || '',
+        Array.isArray(charObj.note_2) ? charObj.note_2.join(' ') : (charObj.note_2 || ''),
+        Array.isArray(charObj.race) ? charObj.race.join(' ') : (charObj.race || ''),
+        charObj.origin || '',
+        Array.isArray(charObj.fruit) ? charObj.fruit.join(' ') : (charObj.fruit || ''),
+        charObj.haki || ''
+      ];
+
+      return fieldsToSearch.some(f => normalizeText(f).includes(qNorm));
+    }
+
+    function renderCards() {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+
+      const assignedSet = new Set(Object.values(pyramidSlots));
+      const hasSearch = searchQuery.trim().length > 0;
+
+      const filtered = ONE_PIECE_CHARACTERS.filter(c => {
+        const matchesCategory = hasSearch || charMatchesCategory(c, activeFilterKey);
+        const matches = matchesCategory && matchesSearch(c, searchQuery);
+        if (!matches) return false;
+
+        if (!hasSearch && assignedSet.has(c.id)) return false;
+
+        return true;
+      });
+
+      const displayChunk = filtered.slice(0, 100);
+
+      displayChunk.forEach(c => {
+        const isPlaced = assignedSet.has(c.id);
+        const card = document.createElement('div');
+        card.className = `char-card ${isPlaced ? 'in-pyramid' : ''}`;
+        card.draggable = !isPlaced;
+
+        const primaryName = currentLang === 'ar' ? c.name_ar : c.name_en;
+        const secondaryName = currentLang === 'ar' ? c.name_en : c.name_ar;
+        card.title = isPlaced
+          ? `${primaryName} (${currentLang === 'ar' ? 'موضوع في الهرم' : 'Placed in pyramid'})`
+          : `${primaryName} (${secondaryName})`;
+
+        card.innerHTML = `
+          <img src="${c.file}?v=9" alt="${c.name_en}" loading="lazy">
+          <div class="char-card-label">${primaryName}</div>
+          ${isPlaced ? `<div class="placed-badge">${currentLang === 'ar' ? 'في الهرم' : 'Placed'}</div>` : ''}
+        `;
+
+        card.addEventListener('dragstart', (e) => {
+          if (isPlaced) {
+            e.preventDefault();
+            return;
+          }
+          e.dataTransfer.setData('text/plain', c.id);
+        });
+
+        card.addEventListener('click', () => {
+          if (isPlaced) return;
+
+          if (selectedSlotForPlacement) {
+            pyramidSlots[selectedSlotForPlacement] = c.id;
+            selectedSlotForPlacement = null;
+            saveState();
+            renderPyramid();
+            renderCards();
+            showToast(currentLang === 'ar' ? `تم إيداع ${primaryName}` : `Placed ${primaryName}`);
+            return;
+          }
+
+          const slotEntry = Object.entries(pyramidSlots).find(([sId, id]) => id === c.id);
+          if (slotEntry) {
+            const targetSlot = document.querySelector(`.slot[data-slot-id="${slotEntry[0]}"]`);
+            if (targetSlot) {
+              targetSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              targetSlot.classList.add('selected-slot');
+              setTimeout(() => targetSlot.classList.remove('selected-slot'), 1200);
+            }
+          } else {
+            placeInNextEmptySlot(c.id);
+          }
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function placeInNextEmptySlot(charId) {
+      for (let r = 1; r <= currentHeight; r++) {
+        for (let c = 1; c <= r; c++) {
+          const sId = `${r}_${c}`;
+          if (!pyramidSlots[sId]) {
+            pyramidSlots[sId] = charId;
+            saveState();
+            renderPyramid();
+            renderCards();
+
+            const targetSlot = document.querySelector(`.slot[data-slot-id="${sId}"]`);
+            if (targetSlot) {
+              targetSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              targetSlot.classList.add('selected-slot');
+              setTimeout(() => targetSlot.classList.remove('selected-slot'), 800);
+            }
+
+            const charObj = ONE_PIECE_CHARACTERS.find(x => x.id === charId);
+            const name = charObj ? (currentLang === 'ar' ? charObj.name_ar : charObj.name_en) : '';
+            showToast(currentLang === 'ar' ? `تم إيداع ${name}` : `Placed ${name}`);
+            return;
+          }
+        }
+      }
+      showToast(currentLang === 'ar' ? 'الهرم ممتلئ! يمكنك زيادة الارتفاع لإضافة خانات جديدة' : 'Pyramid full! Increase height to add more slots');
+    }
+
+    /* ==========================================================================
+       PRESETS MANAGEMENT (LOCALSTORAGE)
+       ========================================================================== */
+
+    function getSavedPresets() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_PRESETS);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveCurrentPreset() {
+      const input = document.getElementById('new-preset-name');
+      const name = input.value.trim();
+      const dict = I18N[currentLang];
+
+      if (!name) {
+        alert(currentLang === 'ar' ? 'يرجى كتابة اسم الترتيب أولاً' : 'Please enter a preset name');
+        return;
+      }
+
+      const presets = getSavedPresets();
+      const newPreset = {
+        id: `preset_${Date.now()}`,
+        name: name,
+        date: new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-EG' : 'en-US'),
+        height: currentHeight,
+        slots: { ...pyramidSlots },
+        mystery: [...mysterySlots]
+      };
+
+      presets.unshift(newPreset);
+      try {
+        localStorage.setItem(STORAGE_KEY_PRESETS, JSON.stringify(presets));
+        input.value = '';
+        renderPresetsList();
+        showToast(dict.presetSavedToast);
+      } catch (e) {
+        console.error("Storage error:", e);
+        alert(currentLang === 'ar' ? 'تعذر الحفظ (مساحة التخزين ممتلئة)' : 'Failed to save preset');
+      }
+    }
+
+    function loadPreset(presetId) {
+      const presets = getSavedPresets();
+      const p = presets.find(x => x.id === presetId);
+      if (!p) return;
+
+      currentHeight = p.height || 6;
+      document.getElementById('height-input').value = currentHeight;
+      pyramidSlots = { ...p.slots };
+      mysterySlots = new Set(p.mystery || []);
+
+      saveState();
+      renderPyramid();
+      renderCards();
+
+      document.getElementById('presets-modal').classList.remove('open');
+      showToast(currentLang === 'ar' ? `تم استرجاع: ${p.name}` : `Loaded preset: ${p.name}`);
+    }
+
+    function deletePreset(presetId) {
+      const dict = I18N[currentLang];
+      if (!confirm(dict.confirmDelPreset)) return;
+
+      let presets = getSavedPresets();
+      presets = presets.filter(p => p.id !== presetId);
+      localStorage.setItem(STORAGE_KEY_PRESETS, JSON.stringify(presets));
+      renderPresetsList();
+      showToast(currentLang === 'ar' ? 'تم حذف الترتيب' : 'Preset deleted');
+    }
+
+    function renderPresetsList() {
+      const container = document.getElementById('presets-list-container');
+      container.innerHTML = '';
+      const presets = getSavedPresets();
+      const dict = I18N[currentLang];
+
+      if (presets.length === 0) {
+        container.innerHTML = `<div class="no-presets">${dict.noPresetsMsg}</div>`;
+        return;
+      }
+
+      presets.forEach(p => {
+        const placedCount = Object.keys(p.slots || {}).length;
+        const item = document.createElement('div');
+        item.className = 'preset-item';
+        item.innerHTML = `
+          <div class="preset-info">
+            <span class="preset-name">${escapeHtml(p.name)}</span>
+            <span class="preset-meta">${p.height} ${dict.rowText} • ${placedCount} ${dict.charsText} • ${p.date}</span>
+          </div>
+          <div class="preset-actions">
+            <button class="btn btn-primary" onclick="loadPreset('${p.id}')">📂 ${dict.loadBtn}</button>
+            <button class="btn btn-danger" onclick="deletePreset('${p.id}')">🗑️ ${dict.delBtn}</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    /* ==========================================================================
+       IMAGE EXPORT
+       ========================================================================== */
+
+    async function downloadPyramidImage() {
+      const node = document.getElementById('pyramid-export-node');
+      const dict = I18N[currentLang];
+      showToast(dict.downloadingToast);
+
+      const buttons = node.querySelectorAll('.remove-btn, .mystery-btn');
+      buttons.forEach(b => b.style.display = 'none');
+
+      try {
+        const canvas = await html2canvas(node, {
+          backgroundColor: '#070d18',
+          scale: 2.5,
+          useCORS: true,
+          logging: false
+        });
+
+        const link = document.createElement('a');
+        link.download = `one-piece-pyramid-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        showToast(dict.downloadSuccessToast);
+      } catch (err) {
+        console.error("Export error:", err);
+        showToast(currentLang === 'ar' ? 'فشل إنشاء الصورة' : 'Failed to generate image');
+      } finally {
+        buttons.forEach(b => b.style.display = '');
+      }
+    }
+
+    /* ==========================================================================
+       EVENT LISTENERS & UTILITIES
+       ========================================================================== */
+
+    function setupEventListeners() {
+      document.getElementById('btn-toggle-lang').addEventListener('click', toggleLanguage);
+
+      const heightInput = document.getElementById('height-input');
+      heightInput.addEventListener('change', (e) => {
+        let val = parseInt(e.target.value, 10);
+        if (isNaN(val)) val = 6;
+        val = Math.max(1, Math.min(30, val));
+        currentHeight = val;
+        heightInput.value = val;
+        saveState();
+        renderPyramid();
+        renderCards();
+      });
+
+      document.getElementById('btn-clear').addEventListener('click', () => {
+        const dict = I18N[currentLang];
+        if (Object.keys(pyramidSlots).length === 0) return;
+        if (confirm(dict.confirmClear)) {
+          pyramidSlots = {};
+          mysterySlots.clear();
+          selectedSlotForPlacement = null;
+          saveState();
+          renderPyramid();
+          renderCards();
+          showToast(dict.clearedToast);
+        }
+      });
+
+      document.getElementById('btn-download').addEventListener('click', downloadPyramidImage);
+
+      const searchBox = document.getElementById('char-search');
+      const searchClearBtn = document.getElementById('search-clear-btn');
+
+      function handleSearchInput() {
+        searchQuery = searchBox.value;
+        if (searchQuery.trim().length > 0) {
+          searchClearBtn.style.display = 'block';
+        } else {
+          searchClearBtn.style.display = 'none';
+        }
+        renderCards();
+      }
+
+      searchBox.addEventListener('input', handleSearchInput);
+      searchBox.addEventListener('keyup', handleSearchInput);
+      searchBox.addEventListener('change', handleSearchInput);
+      searchBox.addEventListener('search', handleSearchInput);
+      searchBox.addEventListener('paste', () => setTimeout(handleSearchInput, 50));
+      searchBox.addEventListener('compositionend', handleSearchInput);
+
+      searchClearBtn.addEventListener('click', () => {
+        searchBox.value = '';
+        searchQuery = '';
+        searchClearBtn.style.display = 'none';
+        renderCards();
+        searchBox.focus();
+      });
+
+      document.getElementById('btn-presets').addEventListener('click', () => {
+        renderPresetsList();
+        document.getElementById('presets-modal').classList.add('open');
+      });
+      document.getElementById('btn-close-presets').addEventListener('click', () => {
+        document.getElementById('presets-modal').classList.remove('open');
+      });
+      document.getElementById('presets-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'presets-modal') {
+          document.getElementById('presets-modal').classList.remove('open');
+        }
+      });
+      document.getElementById('btn-save-current-preset').addEventListener('click', saveCurrentPreset);
+
+      const drawerHandle = document.getElementById('mobile-drawer-toggle');
+      let drawerExpanded = false;
+      drawerHandle.addEventListener('click', () => {
+        const drawer = document.getElementById('drawer-section');
+        drawerExpanded = !drawerExpanded;
+        drawer.style.height = drawerExpanded ? '75vh' : '42vh';
+        drawer.style.maxHeight = drawerExpanded ? '75vh' : '44vh';
+      });
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('toast-msg');
+      const toastText = document.getElementById('toast-text');
+      toastText.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[m]);
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
