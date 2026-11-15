@@ -1068,6 +1068,33 @@
     </div>
   </div>
 
+  <!-- Image Export / Preview & Save Modal for Mobile & Web -->
+  <div class="modal-overlay" id="export-preview-modal">
+    <div class="modal-box" style="max-width: 520px; max-height: 90vh;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📸</span> <span id="ui-export-modal-title">صورة الهرم جاهزة</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-export-modal">&times;</button>
+      </div>
+      <div style="padding: 0.65rem 1rem; background: rgba(245, 158, 11, 0.08); border-bottom: 1px solid rgba(245, 158, 11, 0.2); font-size: 0.78rem; line-height: 1.4; color: #fbbf24; display: flex; align-items: center; gap: 0.45rem;">
+        <span>💡</span>
+        <span id="ui-export-tip"><strong>لحفظ الصورة في جوالك</strong>: اضغط مطولاً على الصورة أدناه ثم اختر <strong>حفظ الصورة (Save Image)</strong>، أو اضغط زر المشاركة.</span>
+      </div>
+      <div style="padding: 0.85rem; overflow-y: auto; text-align: center; flex: 1; min-height: 0;">
+        <img id="export-preview-img" src="" alt="Custom Pyramid" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.3); box-shadow: 0 8px 24px rgba(0,0,0,0.7); display: block; margin: 0 auto;">
+      </div>
+      <div style="padding: 0.75rem 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; gap: 0.5rem; justify-content: flex-end; flex-wrap: wrap;">
+        <button class="btn" id="btn-modal-direct-download" style="font-size: 0.78rem;">
+          💾 <span id="ui-btn-direct-download">تحميل مباشر</span>
+        </button>
+        <button class="btn btn-gold" id="btn-modal-share-img" style="font-size: 0.78rem;">
+          📤 <span id="ui-btn-share-img">مشاركة / حفظ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div class="toast" id="toast-msg">
     <span>✅</span> <span id="toast-text">تمت العملية</span>
@@ -1113,6 +1140,10 @@
         toastRemoved: 'تمت إزالة العنصر',
         toastCleared: 'تم تفريغ الهرم',
         toastGenerated: 'تم توليد الكروت بنجاح',
+        exportModalTitle: 'صورة الهرم جاهزة 📸',
+        exportTip: '<strong>لحفظ الصورة في جوالك</strong>: اضغط مطولاً على الصورة أدناه ثم اختر <strong>حفظ الصورة (Save Image)</strong>، أو اضغط زر المشاركة.',
+        directDownloadBtn: 'تحميل مباشر',
+        shareBtn: 'مشاركة / حفظ 📤',
         emptySlotTip: 'انقر لوضع عنصر هنا',
         removeTitle: 'إزالة من الهرم'
       },
@@ -1137,6 +1168,10 @@
         toastRemoved: 'Removed item',
         toastCleared: 'Cleared pyramid',
         toastGenerated: 'Cards generated successfully',
+        exportModalTitle: 'Pyramid Image Ready 📸',
+        exportTip: '<strong>To save on your phone</strong>: Long-press the image below and tap <strong>Save Image</strong>, or tap Share.',
+        directDownloadBtn: 'Direct Download',
+        shareBtn: 'Share / Save 📤',
         emptySlotTip: 'Click to place an item here',
         removeTitle: 'Remove from pyramid'
       }
@@ -1509,29 +1544,129 @@
         }
       });
 
-      // Download PNG
+      let currentExportBlob = null;
+      let currentExportFile = null;
+
+      // Download PNG / Mobile Export
       document.getElementById('btn-download').addEventListener('click', async () => {
         const node = document.getElementById('pyramid-export-node');
-        showToast(currentLang === 'ar' ? 'جاري تجهيز الصورة...' : 'Generating image...');
+        showToast(currentLang === 'ar' ? 'جاري تجهيز الصورة بدقة عالية...' : 'Generating high-resolution image...');
+
+        const buttons = node.querySelectorAll('.remove-btn, .mystery-btn');
+        buttons.forEach(b => b.style.display = 'none');
 
         try {
+          const isMobile = window.innerWidth <= 860 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+          const exportScale = isMobile ? 2 : 2.5;
+
           const canvas = await html2canvas(node, {
             backgroundColor: '#070d18',
-            scale: 2,
+            scale: exportScale,
             useCORS: true,
-            allowTaint: true
+            allowTaint: true,
+            logging: false,
+            imageTimeout: 15000
           });
+
+          const blob = await new Promise((resolve, reject) => {
+            canvas.toBlob(b => b ? resolve(b) : reject(new Error('Canvas toBlob failed')), 'image/png', 0.95);
+          });
+
+          currentExportBlob = blob;
+          const rawTitle = (document.getElementById('pyramid-title').value.trim() || 'custom-pyramid').replace(/\s+/g, '_');
+          const fileName = `${rawTitle}-${Date.now()}.png`;
+          const file = new File([blob], fileName, { type: 'image/png' });
+          currentExportFile = file;
+
+          // Direct download link
+          const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
-          const title = (document.getElementById('pyramid-title').value.trim() || 'custom-pyramid').replace(/\s+/g, '_');
-          link.download = `${title}.png`;
-          link.href = canvas.toDataURL('image/png');
+          link.download = fileName;
+          link.href = url;
+          document.body.appendChild(link);
           link.click();
-          showToast(currentLang === 'ar' ? 'تم تحميل الصورة!' : 'Downloaded image!');
+          document.body.removeChild(link);
+          setTimeout(() => URL.revokeObjectURL(url), 40000);
+
+          if (isMobile) {
+            const previewImg = document.getElementById('export-preview-img');
+            if (previewImg) previewImg.src = url;
+            const modal = document.getElementById('export-preview-modal');
+            if (modal) modal.classList.add('open');
+
+            const shareBtn = document.getElementById('btn-modal-share-img');
+            if (shareBtn) {
+              if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                shareBtn.style.display = 'inline-flex';
+              } else {
+                shareBtn.style.display = 'none';
+              }
+            }
+            showToast(currentLang === 'ar' ? 'تم تجهيز الصورة بنجاح!' : 'Image ready!');
+          } else {
+            showToast(currentLang === 'ar' ? 'تم تحميل الصورة!' : 'Downloaded image!');
+          }
         } catch(err) {
           console.error('html2canvas error:', err);
           showToast(currentLang === 'ar' ? 'حدث خطأ في تحميل الصورة' : 'Error downloading image');
+        } finally {
+          buttons.forEach(b => b.style.display = '');
         }
       });
+
+      // Export Preview Modal Events
+      const exportModal = document.getElementById('export-preview-modal');
+      const exportClose = document.getElementById('btn-close-export-modal');
+      const modalShareBtn = document.getElementById('btn-modal-share-img');
+      const modalDirectDlBtn = document.getElementById('btn-modal-direct-download');
+
+      if (exportClose && exportModal) {
+        exportClose.addEventListener('click', () => {
+          exportModal.classList.remove('open');
+        });
+      }
+
+      if (exportModal) {
+        exportModal.addEventListener('click', (e) => {
+          if (e.target === exportModal) {
+            exportModal.classList.remove('open');
+          }
+        });
+      }
+
+      if (modalShareBtn) {
+        modalShareBtn.addEventListener('click', async () => {
+          if (!currentExportFile) return;
+          try {
+            if (navigator.share) {
+              await navigator.share({
+                title: document.getElementById('pyramid-title').value.trim() || 'Custom Pyramid',
+                files: [currentExportFile]
+              });
+              showToast(currentLang === 'ar' ? 'تمت المشاركة بنجاح!' : 'Shared successfully!');
+            }
+          } catch(err) {
+            if (err.name !== 'AbortError') {
+              console.warn('Share error:', err);
+            }
+          }
+        });
+      }
+
+      if (modalDirectDlBtn) {
+        modalDirectDlBtn.addEventListener('click', () => {
+          if (!currentExportBlob) return;
+          const url = URL.createObjectURL(currentExportBlob);
+          const rawTitle = (document.getElementById('pyramid-title').value.trim() || 'custom-pyramid').replace(/\s+/g, '_');
+          const link = document.createElement('a');
+          link.download = `${rawTitle}-${Date.now()}.png`;
+          link.href = url;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => URL.revokeObjectURL(url), 40000);
+        });
+      }
 
       // Upload Images button
       const fileInput = document.getElementById('hidden-file-input');
