@@ -231,6 +231,18 @@
       color: #fff;
     }
 
+    .visitor-pill {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .visitor-pill:hover {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: var(--gold);
+    }
+
     /* Main Workspace Layout */
     .app-workspace {
       display: flex;
@@ -858,6 +870,17 @@
       .stats-pill {
         display: none;
       }
+      .stats-pill.visitor-pill {
+        display: inline-flex !important;
+        padding: 0.2rem 0.4rem;
+        font-size: 0.72rem;
+        gap: 0.2rem;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+      .visitor-pill .visitor-text {
+        display: none;
+      }
 
       .app-workspace {
         flex: 1;
@@ -1223,6 +1246,11 @@
         <span id="ui-placed-label">في الهرم:</span> <strong id="count-placed">0</strong> / <span id="count-total-slots">21</span>
       </div>
 
+      <!-- Visitor Counter Badge -->
+      <div class="stats-pill visitor-pill" id="visitor-badge" title="إجمالي زوار الموقع">
+        <span>👥</span> <span class="visitor-text" id="ui-visitors-label">الزوار:</span> <strong id="visitor-count">564</strong>
+      </div>
+
       <!-- Presets Modal Button -->
       <button class="btn btn-secondary" id="btn-presets">
         📂 <span id="ui-presets-btn">الترتيبات المحفوظة</span> (<span id="presets-count-badge">0</span>)
@@ -1354,6 +1382,7 @@
         searchPlaceholder: "ابحث بالاسم العربي أو الإنجليزي...",
         heightLabel: "الارتفاع:",
         placedLabel: "في الهرم:",
+        visitorsLabel: "الزوار:",
         presetsBtn: "الترتيبات المحفوظة",
         clearBtn: "تفريغ",
         downloadBtn: "تحميل صورة",
@@ -1440,6 +1469,7 @@
         searchPlaceholder: "Search by English or Arabic name...",
         heightLabel: "Height:",
         placedLabel: "Placed:",
+        visitorsLabel: "Visitors:",
         presetsBtn: "Saved Presets",
         clearBtn: "Clear",
         downloadBtn: "Download PNG",
@@ -1637,6 +1667,7 @@
       renderPyramid();
       renderCards();
       setupEventListeners();
+      initVisitorCounter();
     }
 
     function applyLanguage(lang) {
@@ -1656,6 +1687,7 @@
       safeSetText('ui-brand-subtitle', dict.brandSubtitle);
       safeSetText('ui-height-label', dict.heightLabel);
       safeSetText('ui-placed-label', dict.placedLabel);
+      safeSetText('ui-visitors-label', dict.visitorsLabel);
       safeSetText('ui-presets-btn', dict.presetsBtn);
       safeSetText('ui-clear-btn', dict.clearBtn);
       safeSetText('ui-download-btn', dict.downloadBtn);
@@ -2562,6 +2594,59 @@
         '"': '&quot;',
         "'": '&#39;'
       })[m]);
+    }
+
+    /* ==========================================================================
+       VISITOR COUNTER (CountAPI)
+       ========================================================================== */
+
+    async function initVisitorCounter() {
+      const countEl = document.getElementById('visitor-count');
+      const badgeEl = document.getElementById('visitor-badge');
+      const KEY = 'adil7sai7_one_piece_pyramid_visits';
+      const BASE_URL = 'https://countapi.mileshilliard.com/api/v1';
+      const BASE_OFFSET = 564;
+
+      // Load cached count or default baseline
+      let cached = parseInt(localStorage.getItem('cached_one_piece_visits'), 10);
+      if (!cached || isNaN(cached) || cached < BASE_OFFSET) {
+        cached = BASE_OFFSET;
+      }
+      if (countEl) countEl.textContent = cached.toLocaleString();
+
+      if (badgeEl) {
+        badgeEl.addEventListener('click', () => {
+          const val = countEl ? countEl.textContent : cached;
+          const msg = (currentLang === 'ar')
+            ? `إجمالي زوار الموقع: ${val} زائر 🏴‍☠️`
+            : `Total site visitors: ${val} 🏴‍☠️`;
+          showToast(msg);
+        });
+      }
+
+      // Check session to count unique session visits
+      const sessionKey = 'one_piece_visited_session';
+      const isNewSession = !sessionStorage.getItem(sessionKey);
+      const action = isNewSession ? 'hit' : 'get';
+
+      try {
+        const res = await fetch(`${BASE_URL}/${action}/${KEY}`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          cache: 'no-cache'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && typeof data.value === 'number') {
+            const finalVal = Math.max(data.value, BASE_OFFSET);
+            if (countEl) countEl.textContent = finalVal.toLocaleString();
+            localStorage.setItem('cached_one_piece_visits', finalVal.toString());
+            sessionStorage.setItem(sessionKey, '1');
+          }
+        }
+      } catch (err) {
+        console.warn('Visitor counter notice:', err);
+      }
     }
 
     window.addEventListener('DOMContentLoaded', init);
